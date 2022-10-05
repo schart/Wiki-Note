@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="../public/static/css/upload_modal.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>Notes</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200&display=swap');
+
+        .cross {
+            padding: 10px;
+            color: #6A1B9A;
+            cursor: pointer;
+            font-size: 23px
+        }
+
+        .cross i {
+            margin-top: 3px;
+            cursor: pointer
+        }
+
+        .icons i {
+            color: #6A1B9A;
+        }
+
+
+        .send {
+            color: #fff;
+            background-color: #6A1B9A;
+            border-color: #6A1B9A
+        }
+
+        .send:hover {
+            color: #fff;
+            background-color: #6A1B9A;
+            border-color: #6A1B9A
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+            aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <a class="navbar-brand" href="#">TakeNote</a>
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item active">
+                    <a href="" class="nav-link" data-toggle="modal" data-target="#modalLoginForm">Login</a>
+                </li>
+                or
+                <li class="nav-item active">
+                    <a href="" class="nav-link" data-toggle="modal" data-target="#modalRegisterForm">Register</a>
+                </li>
+                <li class="nav-item active">
+                    <a href="" class="nav-link" class="btn btn-primary" data-toggle="modal"
+                        data-target="#exampleModalCenter">Upload note</a>
+                </li>
+            </ul>
+
+            <form class="form-inline my-2 my-lg-0" id="search_form">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" name="query" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+
+    <!--
+        login modal
+    -->
+
+    <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-3">
+
+                    <!-- FORM -->
+                    <form id="login_form" action="login/login-user" method="POST">
+                        <div class="md-form mb-5">
+                            <i class="fas fa-envelope prefix grey-text"></i>
+                            <input type="username" id="defaultForm-username" name="username"
+                                class="form-control validate">
+                            <label data-error="wrong" data-success="right" for="defaultForm-username">Your
+                                username</label>
+                        </div>
+
+                        <div class="md-form mb-4">
+                            <i class="fas fa-lock prefix grey-text"></i>
+                            <input type="password" id="defaultForm-pass" name="password" class="form-control validate">
+                            <label data-error="wrong" data-success="right" for="defaultForm-pass">Your password</label>
+                        </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button class="btn btn-default">Login</button>
+                </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <!--
+        register modal
+        
+    -->
+    <div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body mx-3">
+
+                    <!-- FORM -->
+                    <form id="register_form" action="/register/save-user" method="POST">
+                        <div class="md-form mb-5">
+                            <i class="fas fa-envelope prefix grey-text"></i>
+                            <input type="username" id="defaultForm-username" name="username"
+                                class="form-control validate">
+                            <label data-error="wrong" data-success="right" for="defaultForm-username">Your
+                                username</label>
+                        </div>
+
+                        <div class="md-form mb-4">
+                            <i class="fas fa-lock prefix grey-text"></i>
+                            <input type="email" id="defaultForm-pass" name="email" class="form-control validate"
+                                value="@gmail.com">
+                            <label data-error="wrong" data-success="right" for="defaultForm-pass">Your email</label>
+                        </div>
+
+                        <div class="md-form mb-4">
+                            <i class="fas fa-lock prefix grey-text"></i>
+                            <input type="password" id="defaultForm-pass" name="password" class="form-control validate">
+                            <label data-error="wrong" data-success="right" for="defaultForm-pass">Your password</label>
+                        </div>
+
+                        <div class="md-form mb-4">
+                            <i class="fas fa-lock prefix grey-text"></i>
+                            <input type="password" id="defaultForm-pass" name="re_password"
+                                class="form-control validate">
+                            <label data-error="wrong" data-success="right" for="defaultForm-pass">Your
+                                Re_password</label>
+                        </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button class="btn btn-default">Register</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 
+        CARD
+    -->
+
+    <div class="card" style="margin-top: 20px; margin-left: 20px; margin-right: 20px; width: 18rem; display: block;"
+        id="first">
+        <div class="card-body">
+
+
+            <h5 class="card-title" id="<%= data.userid %>">
+                <%= data.subject %>
+
+            </h5>
+
+            <p class="card-text">
+                <%= data.file_name %>
+            </p>
+
+            <form id="download-note-form" style="display: inline;">
+                <button type="submit" id="download-note" class="btn btn-outline-danger">
+                    Download
+                </button>
+            </form>
+            or
+            <a href="/note/go-note/<%= data.id %>" id="go-note-link">
+                <button type="submit" id="go-note" class="btn btn-outline-success" data-toggle="modal">
+                    View content
+                </button>
+            </a>
+        </div>
+        <hr>
+    </div>
+
+    <!--
+       Modal for upload file
+    -->
+    <form id="upload_form"  action="/note/note-create" enctype="multipart/form-data" method="post">
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <label for="">Subject?:</label>
+                        <input type="text" name="subject">
+                        <label for="">allow own the those text files .txt</label>
+                        <input type="file" name="file">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script type="text/javascript" src="../public/static/js/login-register.js"></script>
+    <script type="text/javascript" src="../public/static/js/note.js"></script>
+    <script type="text/javascript" src="../public/static/js/upload.js"></script>
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

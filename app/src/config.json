@@ -1,0 +1,19 @@
+{
+    "Server": {
+        "host": "localhost",
+        "port": "8000"
+    },
+    "MongoDB": {
+        "port": 27017,
+        "database": "Wiki_Note"
+    },
+    "PostgreSqlDB": {
+        "port": 5432,
+        "user": "**",
+        "database": "Wiki_Note",
+        "password": "**"
+    },
+    "Redis": {
+        "port": 6379
+    }
+}

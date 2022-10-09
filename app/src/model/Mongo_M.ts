@@ -22,7 +22,7 @@ const UserSchema: any = new Schema({
     }
 })
 
-const Users: any = mongoose.model('Users', UserSchema)
+const Users = mongoose.model('Users', UserSchema)
 
 
 

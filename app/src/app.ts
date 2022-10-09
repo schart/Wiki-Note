@@ -17,6 +17,8 @@ Note.init()
 
 const app: any = express()
 
+
+
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -25,7 +27,7 @@ app.set('UPLOADS', './src/uploads/');
 app.set('SECRET_KEY', 'this_secret_key');
 
 
-//app.use('/', routers.);
+app.use('/', routers.NoteRoute);
 app.use('/register', routers.RegisterRoute);
 app.use('/login', routers.LoginRoute);
 

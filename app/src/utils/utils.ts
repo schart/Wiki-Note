@@ -35,7 +35,7 @@ posgres_client.connect()
 // Mongo db; Using for none relation data
 let DBurl: any = `mongodb://${Config_Json.Server.host}:${Config_Json.MongoDB.port}/${Config_Json.MongoDB.database}`
 mongoose.connect(DBurl)
-    .then((result: any) => { console.log("result") })
+    .then((result: any) => { console.log("Successfuly connected to MongoDB") })
     .catch((error: Error) => { console.log(error) })
 
 
@@ -43,6 +43,7 @@ mongoose.connect(DBurl)
 // Redis db; Using for keep data in cache
 export let redis_client = createClient({ url: `redis://${Config_Json.Server.host}:${Config_Json.Redis.port}` });
 redis_client.on('error', (error: Error) => console.log('Redis Client Error', error));
+redis_client.on('connect', (error: Error) => console.log('Successfuly connected to Redis Cache '));
 redis_client.connect();
 
 

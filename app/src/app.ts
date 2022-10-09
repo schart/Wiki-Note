@@ -10,6 +10,11 @@ import { Server } from 'http';
 import * as utils from "./utils/utils";
 utils
 
+// Start PosgreSQL DB
+import Note from "./model/PostgreSql_M"
+Note.init()
+
+
 const app: any = express()
 
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));

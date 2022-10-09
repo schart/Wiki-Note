@@ -70,3 +70,15 @@ export const fileFilter = (req: any, file: any, cb: any) => {
 }
 
 export const upload: any = multer({ storage: storage, fileFilter: fileFilter, limits: { fieldSize: 10 * (1024 * 1024) } });
+
+const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+export function generateString(length: number) {
+    let result = ' ';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    return result;
+}

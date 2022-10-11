@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const Schema: any = mongoose.Schema
 
-const UserSchema: any = new Schema({
+const UserSchema = new Schema({
 
     _Username: {
         type: String,
@@ -22,8 +22,6 @@ const UserSchema: any = new Schema({
     }
 })
 
-const Users = mongoose.model('Users', UserSchema)
+export let Users: any = mongoose.model('Users', UserSchema)
 
 
-
-export = Users;

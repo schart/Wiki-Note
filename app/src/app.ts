@@ -1,9 +1,10 @@
 import express, { Application, Request, Response } from 'express';
 import * as routers from './routers/AllRoutes';
 import cookieParser from 'cookie-parser';
-import * as Users from "./model/Mongo_M";
+import * as Models from "./model/Mongo_M";
 import bodyParser from 'body-parser';
 import { Server } from 'http';
+
 
 
 // Start db tools like cursor for access
@@ -32,9 +33,20 @@ app.use('/register', routers.RegisterRoute);
 app.use('/login', routers.LoginRoute);
 
 
+utils.redis_client.lRange("usernames", -1, -1).then((res: any) => console.log(res))
+utils.redis_client.lRange("emails", -1, -1).then((res: any) => console.log(res))
+
+
+// for delete all data in keys
+/*
+utils.redis_client.del("usernames").then((res: any) => console.log(res))
+utils.redis_client.del("emails").then((res: any) => console.log(res))
+*/
+
 app.get('/', (req: Request, res: Response) => {
-    const take_users: any = Users.find()
-        .then((result: Object[]) => res.json("results: " + take_users))
+
+    const Get_Users: any = Models.Users.find()
+        .then((result: any) => res.json("results: " + Get_Users))
         .catch((error: Error) => res.json(error))
 
 })

@@ -22,6 +22,6 @@ const UserSchema = new Schema({
     }
 })
 
-export let Users: any = mongoose.model('Users', UserSchema)
+export const Users: any = mongoose.model('Users', UserSchema)
 
 

@@ -7,9 +7,7 @@ import * as Models from '../model/Mongo_M';
 export const presence_user_InRedis_login: any = (req: Request, res: Response, next: NextFunction) => 
 
 {
-    console.log("PresenceUserInRedis Login:")
-    console.log(req.body)
-
+    console.log("PresenceUserInRedis Login:", req.body)
     const username: any = req.body.username;
     const email: any = req.body.email;
 
@@ -44,19 +42,17 @@ export const presence_user_InRedis_login: any = (req: Request, res: Response, ne
 
 
 export const password_auth: any = (req: Request, res: Response, next: NextFunction) => 
-
 {
-   console.log(req.body)
+    console.log("password_auth: ", res.locals)
     const username: any = res.locals.username;
     const password: any = res.locals.password;
 
     const get_user_info: any = Models.Users.findOne({ username: username }, (error: Error, result: Object[]) => 
     {
-        if (error) { res.status(400).json({ ok: false, error }) }
+        if (error) return res.status(400).json({ ok: false, error }) 
 
         else 
         {
-            console.log("pass: ", result)
             let Tostr: any = JSON.stringify(result)
             let Tojson: any = JSON.parse(Tostr) // json of result data
 
@@ -69,16 +65,12 @@ export const password_auth: any = (req: Request, res: Response, next: NextFuncti
 
 
 export const check_session_logout: any = (req: Request, res: Response, next: NextFunction) => 
-
 {   
-    console.log("chech_session_logout: ")
+    console.log("chech_session_logout: ", req.cookies.token)
     let token = JSON.stringify(req.cookies.token)
 
-    if (token != undefined) 
-    {
-        console.log('[logout] next other layer')
-        return next()
-    } else return res.status(400).json({ ok: false, msg: "you are not have account already" })
+    if (token != undefined) return next()
+    else return res.status(400).json({ ok: false, msg: "you are not have account already" })
 }
 
 

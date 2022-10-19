@@ -7,6 +7,7 @@ class Note {
         CREATE TABLE IF NOT EXISTS _Notes(
                 ID INT NOT NULL GENERATED ALWAYS AS IDENTITY  PRIMARY KEY,
                 _UserId INT NOT NULL, 
+                _Title VARCHAR(2048) NOT NULL,
                 _Url VARCHAR(2048) DEFAULT null,
                 _File VARCHAR(80) NOT NULL 
                 

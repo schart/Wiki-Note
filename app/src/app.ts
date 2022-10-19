@@ -18,23 +18,21 @@ Note.init()
 
 const app: any = express()
 
-
-
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.set('UPLOADS', './src/uploads/');
 app.set('SECRET_KEY', 'this_secret_key');
+app.set('UPLOADS', './src/uploads/');
 
 
-app.use('/', routers.NoteRoute);
+app.use('/note', routers.NoteRoute);
 app.use('/register', routers.RegisterRoute);
 app.use('/login', routers.LoginRoute);
 
-
-utils.redis_client.lRange("usernames", -1, -1).then((res: any) => console.log(res))
-utils.redis_client.lRange("emails", -1, -1).then((res: any) => console.log(res))
+// For parsing data in cache
+utils.redis_client.lRange("usernames", 0, -1).then((res: any) => console.log(res))
+utils.redis_client.lRange("emails", 0, -1).then((res: any) => console.log(res))
 
 
 // for delete all data in keys
@@ -43,8 +41,8 @@ utils.redis_client.del("usernames").then((res: any) => console.log(res))
 utils.redis_client.del("emails").then((res: any) => console.log(res))
 */
 
-app.get('/', (req: Request, res: Response) => {
-
+app.get('/', (req: Request, res: Response) => 
+{
     const Get_Users: any = Models.Users.find()
         .then((result: any) => res.json("results: " + Get_Users))
         .catch((error: Error) => res.json(error))

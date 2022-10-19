@@ -48,35 +48,45 @@ redis_client.connect();
 
 
 // Multer, Using for get file from client
-export const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
+export const storage = multer.diskStorage(
+    {
+    destination: function (req, file, cb) 
+    {
         cb(null, './src/uploads/')
     },
 
-    filename: function (req: any, file: any, cb: any) {
+    filename: function (req: any, file: any, cb: any) 
+    {
         cb(null, file.originalname)
     }
 
 });
 
 
-export const fileFilter = (req: any, file: any, cb: any) => {
-    if (file.mimetype != "application/pdf" && file.mimetype != "text/plain") {
+export const fileFilter = (req: any, file: any, cb: any) => 
+{
+    if (file.mimetype != "application/pdf" && file.mimetype != "text/plain") 
+    {
         cb(null, true);
 
-    } else {
+    } else 
+    {
         cb(new Error("Image uploaded is not of type jpg/jpeg or png"), false);
     }
 }
 
 export const upload: any = multer({ storage: storage, fileFilter: fileFilter, limits: { fieldSize: 10 * (1024 * 1024) } });
 
-const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-export function generateString(length: number) {
+
+const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+export function generateString(length: number) 
+{
     let result = ' ';
     const charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
+    
+    for (let i = 0; i < length; i++) 
+    {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
 

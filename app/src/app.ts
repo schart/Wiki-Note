@@ -12,9 +12,16 @@ import * as utils from "./utils/utils";
 utils
 
 // Start PosgreSQL DB
-import Note from "./model/PostgreSql_M"
+import * as Note_Models from "./model/PostgreSql_M"
+
+// not delete Notes keep in this 
+let Note: any = new Note_Models.Note
+// Note.delete_all_table() -> for delete all table in db
 Note.init()
 
+// DNote -> Deleted notes keep in this 
+let DNote: any = new Note_Models.Deleted_Notes
+DNote.init()
 
 const app: any = express()
 

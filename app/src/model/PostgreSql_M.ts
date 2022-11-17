@@ -27,10 +27,11 @@ export class Note
             CREATE TABLE IF NOT EXISTS _Notes
             (
                 ID INT NOT NULL GENERATED ALWAYS AS IDENTITY  PRIMARY KEY,
-                _UserID INT NOT NULL, 
+                _UserID varchar(80) NOT NULL, 
                 _TitleID INT NOT NULL,
                 _UrlID INT NOT NULL,
-                _FileNID INT NOT NULL
+                _FileNID INT NOT NULL,
+                _ValidStatus INT NOT NULL DEFAULT 0 -- this is a only to be able boolean value
             ) 
         `)
 
@@ -62,12 +63,22 @@ export class Note
             );
         `)
         
-        
+        const Note_comment: any = utils.posgres_client.query
+        (`
+            CREATE TABLE IF NOT EXISTS N_Comment
+            (    
+                ID INT NOT NULL GENERATED ALWAYS AS IDENTITY  PRIMARY KEY,
+                _UserId VARCHAR(50) NOT NULL,
+                _NoteId INT NOT NULL,
+                _Comment VARCHAR(500) NOT NULL
+            );
+        `)
         const Note_like: any = utils.posgres_client.query
         (`
             CREATE TABLE IF NOT EXISTS N_Like
             (    
                 ID INT NOT NULL GENERATED ALWAYS AS IDENTITY  PRIMARY KEY,
+                _UserId VARCHAR(50) NOT NULL,
                 _NoteID INT NOT NULL, 
                 _LikeN BOOLEAN NOT NULL 
             );
@@ -75,12 +86,12 @@ export class Note
 
         const Note_accept_status: any = utils.posgres_client.query
         (`
-            CREATE TABLE IF NOT EXISTS N_status
+            CREATE TABLE IF NOT EXISTS N_acceptedNotes
             (    
                 ID INT NOT NULL GENERATED ALWAYS AS IDENTITY  PRIMARY KEY,
-                _NoteID INT NOT NULL,
-                _AccepterID INT NOT NULL, -- admin id
-                _StatusN BOOLEAN NOT NULL 
+                _AccepterID VARCHAR(80) NOT NULL, -- admin id
+                _NoteID INT NOT NULL
+                -- _StatusN BOOLEAN NOT NULL 
             );
         `)
     }
@@ -98,7 +109,7 @@ export class Deleted_Notes
             CREATE TABLE IF NOT EXISTS _DNotes
             (
                 ID INT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                _UserID INT NOT NULL,
+                _UserID varchar(80) NOT NULL, 
                 _DeleterID INT NOT NULL,
                 _TitleID VARCHAR(50) NOT NULL,
                 _UrlID VARCHAR(2048) DEFAULT null,

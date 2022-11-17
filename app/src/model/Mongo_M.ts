@@ -16,6 +16,12 @@ const UserSchema = new Schema({
         require: true
     },
 
+    _PpName: {
+        type: String,
+        unique: true,
+        require: true
+    },
+
     _Password: {
         type: String,
         require: true

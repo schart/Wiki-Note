@@ -19,17 +19,16 @@ const pool: any = new Pool({
 })
 
 export const posgres_client: any = pool
+    posgres_client.connect()
+        .then((result: any) => 
+        {
+            console.log('Successfuly connected to postgresDB');
 
-
-posgres_client.connect()
-    .then((result: any) => {
-
-        console.log('Successfuly connected to postgresDB');
-
-    }).catch((err: Error) => {
-        console.log('[postgress] error')
-        if (err) throw err;
-    });
+        }).catch((error: Error) => 
+        {
+            console.log(error)
+            if (error) throw error;
+        });
 
 
 // Mongo db; Using for none relation data
@@ -43,16 +42,30 @@ mongoose.connect(DBurl)
 // Redis db; Using for keep data in cache
 export let redis_client = createClient({ url: `redis://${Config_Json.Server.host}:${Config_Json.Redis.port}` });
 redis_client.on('error', (error: Error) => console.log('Redis Client Error', error));
-redis_client.on('connect', (error: Error) => console.log('Successfuly connected to Redis Cache '));
+redis_client.on('connect', (result: any) => console.log('Successfuly connected to Redis Cache'));
 redis_client.connect();
 
 
 // Multer, Using for get file from client
-export const storage = multer.diskStorage(
+export const storagePdf = multer.diskStorage(
     {
     destination: function (req, file, cb) 
     {
-        cb(null, './src/uploads/')
+        cb(null, './src/uploads/pdf/')
+    },
+
+    filename: function (req: any, file: any, cb: any) 
+    {
+        cb(null, file.originalname)
+    }
+
+});
+
+export const storageProfile = multer.diskStorage(
+    {
+    destination: function (req, file, cb) 
+    {
+        cb(null, './src/uploads/profile/')
     },
 
     filename: function (req: any, file: any, cb: any) 
@@ -65,17 +78,19 @@ export const storage = multer.diskStorage(
 
 export const fileFilter = (req: any, file: any, cb: any) => 
 {
-    if (file.mimetype != "application/pdf" && file.mimetype != "text/plain") 
+    //if (file.mimetype != "application/pdf" && file.mimetype != "text/plain") 
+    if (true)   
     {
         cb(null, true);
-
-    } else 
+    } 
+    else 
     {
         cb(new Error("Image uploaded is not of type jpg/jpeg or png"), false);
     }
 }
 
-export const upload: any = multer({ storage: storage, fileFilter: fileFilter, limits: { fieldSize: 10 * (1024 * 1024) } });
+export const upload_pdf: any = multer({ storage: storagePdf,  fileFilter: fileFilter, limits: { fieldSize: 10 * (1024 * 1024) } });
+export const upload_profile: any = multer({ storage: storageProfile,  fileFilter: fileFilter, limits: { fieldSize: 10 * (1024 * 1024) } });
 
 
 

@@ -15,13 +15,14 @@ utils
 import * as Note_Models from "./model/PostgreSql_M"
 
 // not delete Notes keep in this 
-let Note: any = new Note_Models.Note
+const Note: any = new Note_Models.Note
 // Note.delete_all_table() -> for delete all table in db
 Note.init()
 
 // DNote -> Deleted notes keep in this 
-let DNote: any = new Note_Models.Deleted_Notes
+const DNote: any = new Note_Models.Deleted_Notes
 DNote.init()
+
 
 const app: any = express()
 
@@ -30,23 +31,24 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.set('SECRET_KEY', 'this_secret_key');
-app.set('UPLOADS', './src/uploads/');
+app.set('UPLOADS_PDF', './src/uploads/pdf/');
+app.set('UPLOADS_PROFILE', './src/uploads/profile/');
 
 
 app.use('/note', routers.NoteRoute);
-app.use('/register', routers.RegisterRoute);
-app.use('/login', routers.LoginRoute);
+app.use('/user', routers.UserRoute);
+
 
 // For parsing data in cache
 utils.redis_client.lRange("usernames", 0, -1).then((res: any) => console.log(res))
 utils.redis_client.lRange("emails", 0, -1).then((res: any) => console.log(res))
 
 
-// for delete all data in keys
-/*
+//! for delete all data in keys
+ /*
 utils.redis_client.del("usernames").then((res: any) => console.log(res))
 utils.redis_client.del("emails").then((res: any) => console.log(res))
-*/
+ */
 
 app.get('/', (req: Request, res: Response) => 
 {

@@ -22,20 +22,20 @@ export class Note
     {
         // FileN -> File name     
 
-        const Note_info: any = utils.posgres_client.query
+        const Note_info: string = utils.posgres_client.query
         (` 
             CREATE TABLE IF NOT EXISTS _Notes
             (
                 ID INT NOT NULL GENERATED ALWAYS AS IDENTITY  PRIMARY KEY,
-                _UserID varchar(80) NOT NULL, 
+                _UserID varchar(100) NOT NULL, 
                 _TitleID INT NOT NULL,
                 _UrlID INT NOT NULL,
                 _FileNID INT NOT NULL,
-                _ValidStatus INT NOT NULL DEFAULT 0 -- this is a only to be able boolean value
+                _ValidStatus BOOLEAN NOT NULL DEFAULT FALSE -- this is a only to be able boolean value
             ) 
         `)
 
-        const Note_title: any = utils.posgres_client.query
+        const Note_title: string = utils.posgres_client.query
         (`
             CREATE TABLE IF NOT EXISTS N_Title
             (
@@ -45,16 +45,16 @@ export class Note
             
         `) 
 
-        const Note_url: any = utils.posgres_client.query
+        const Note_url: string = utils.posgres_client.query
         (`
             CREATE TABLE IF NOT EXISTS N_Url
             (
                 ID INT NOT NULL GENERATED ALWAYS AS IDENTITY  PRIMARY KEY,
-                _UrlN VARCHAR(2048) DEFAULT null
+                _UrlN VARCHAR(2048) DEFAULT NULL
             );   
         `)
 
-        const Note_file: any = utils.posgres_client.query
+        const Note_file: string = utils.posgres_client.query
         (`
             CREATE TABLE IF NOT EXISTS N_File
             (    
@@ -63,40 +63,74 @@ export class Note
             );
         `)
         
-        const Note_comment: any = utils.posgres_client.query
+        const Note_comment: string = utils.posgres_client.query
         (`
             CREATE TABLE IF NOT EXISTS N_Comment
             (    
                 ID INT NOT NULL GENERATED ALWAYS AS IDENTITY  PRIMARY KEY,
-                _UserId VARCHAR(50) NOT NULL,
+                _UserId VARCHAR(100) NOT NULL,
                 _NoteId INT NOT NULL,
                 _Comment VARCHAR(500) NOT NULL
             );
         `)
-        const Note_like: any = utils.posgres_client.query
+        const Note_like: string = utils.posgres_client.query
         (`
             CREATE TABLE IF NOT EXISTS N_Like
             (    
                 ID INT NOT NULL GENERATED ALWAYS AS IDENTITY  PRIMARY KEY,
-                _UserId VARCHAR(50) NOT NULL,
+                _UserId VARCHAR(100) NOT NULL,
                 _NoteID INT NOT NULL, 
                 _LikeN BOOLEAN NOT NULL 
-            );
-        `)
-
-        const Note_accept_status: any = utils.posgres_client.query
-        (`
-            CREATE TABLE IF NOT EXISTS N_acceptedNotes
-            (    
-                ID INT NOT NULL GENERATED ALWAYS AS IDENTITY  PRIMARY KEY,
-                _AccepterID VARCHAR(80) NOT NULL, -- admin id
-                _NoteID INT NOT NULL
-                -- _StatusN BOOLEAN NOT NULL 
             );
         `)
     }
 }
 
+
+class Users 
+{
+    init =  () => 
+    {
+    
+        const Follow: string = utils.posgres_client.query
+            (`
+                CREATE TABLE IF NOT EXISTS U_follow
+                (
+                    ID INT NOT NULL GENERATED ALWAYS AS IDENTITY PRIRMARY KEY,
+                    _Follower INT NOT NULL,
+                    _Followed INT NOT NULL, 
+                    _Status BOOLEAN NOT NULL DEFAULT 1 -- If status equal to 1, that get meaning follow.
+                )    
+            
+            `)
+
+
+            const Notification: string = utils.posgres_client.query
+            (`
+                CREATE TABLE IF NOT EXISTS U_notification
+                (
+                    ID INT NOT NULL GENERATED ALWAYS AS IDENTITY PRIRMARY KEY,
+                    _NotificatorId INT NOT NULL, -- Notificator get mean: who is did shared notification
+                    _Message VARCHAR(80) NOT NULL, 
+                    _Status BOOLEAN NOT NULL DEFAULT FALSE -- if was read notification, that variable with name "status" equal to true
+            
+            `)
+
+
+            const MessageBox: string = utils.posgres_client.query
+            (`
+                CREATE TABLE IF NOT EXISTS U_messageBox
+                (    
+                    ID INT NOT NULL GENERATED ALWAYS AS IDENTITY PRIRMARY KEY,
+                    _NotificationId VARCHAR(50) NOT NULL                
+                
+                )
+            `)
+    } 
+
+}
+
+/*
 // Doesn't create table except "DNotes"
 export class Deleted_Notes 
 {
@@ -147,3 +181,4 @@ export class Deleted_Notes
         `)
     }
 } 
+*/

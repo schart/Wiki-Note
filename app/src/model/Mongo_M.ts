@@ -25,6 +25,12 @@ const UserSchema = new Schema({
     _Password: {
         type: String,
         require: true
+    },
+
+    _Admin: {
+        type: Boolean,
+        require: true,
+        default: 0,
     }
 })
 

@@ -1,9 +1,5 @@
-import express, { Request, Response, NextFunction, Application, Router } from 'express';
-const jwt_decode = require('jwt-decode'); // I Not search TS version :D
+import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-
-
-// i don't needed
 
 export const requireAuth = (req: Request, res: Response, next: NextFunction) => {
     /*
@@ -13,18 +9,8 @@ export const requireAuth = (req: Request, res: Response, next: NextFunction) => 
     let token = JSON.stringify(req.cookies.token)
     console.log('midware: ', token)
 
-    if (token != undefined) {
-        try {
-            jwt.verify(token, req.app.get('SECRET_KEY'));
-            return next();
-        } catch (e) {
-            res.status(401).send({ 'msg': 'unauthorized' });
-            return;
-        }
-    } else {
-        res.status(401).send({ 'msg': 'unauthorized' });
-        return;
-    }
+    if (token != undefined) return next();
+    else return res.status(400).json({ ok: false, msg: "Token is not you are not authorized to that proccess." });
 }
 
 

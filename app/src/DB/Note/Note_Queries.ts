@@ -1,9 +1,7 @@
 import * as utils from "../../utils/utils"
-//import * as DeleterFuncs from "../DB/Note_Queries_Delete" 
 
-/* 
-    We will do self libary for CRUD proccess for SAVE!
-*/
+//!  We will do self libary for CRUD proccess for SAVE!
+
 
 export const Note_save: any = async (userid: number, value: any) => 
 {
@@ -75,63 +73,75 @@ export const Note_delete: any = async (noteid: number, deleter: number) =>
     // Main proccess completed
     return new Promise ((resolve, reject) => 
     {
-        //! check presence of note in midware for security
-        
         utils.posgres_client.query(`DELETE FROM _notes WHERE id = $1;`, [noteid])
-            .then((result: any) => 
-            {
-                if (result["rowCount"] == 1) resolve(true); else reject(false);
-            })  
+            .then((result: any) => { if (result["rowCount"] == 1) resolve(true); else reject(false); })  
             .catch((error: any) => console.error(error))
     }
-    /*
-        Save to _Deleted database these data with deleter id
-    */
 )}
 
 
 
-export const Note_accept: any = async (accepter: string, noteid: number) => 
+export const Note_accept: any = async (/*accepter: string,*/ noteid: number) => 
 { 
     // Main proccess completed
-    //! check presence of note in midware
-
     return new Promise((resolve, reject) => 
     {
-        utils.posgres_client.query(`INSERT INTO public.n_acceptednotes(_accepterid, _noteid) VALUES($1, $2);`, [accepter, noteid], (error: Error, result: any) => 
-        {
-            if (error) throw error; // if there is/are error
+            utils.posgres_client.query({
+                text: `
+                        DO $$
+            
+                            DECLARE status BOOLEAN;
+                            DECLARE Noteid INTEGER := ${noteid};
 
-            if (result["rowCount"] == 1) // Validated. Update status 
-            {
-                utils.posgres_client.query(`UPDATE public._notes SET _validStatus = 1 WHERE id IN (SELECT id FROM _notes where id = $1);`, [noteid])
-                    .then((result: any) => 
-                    {
-                        if (result["rowCount"] == 1) resolve(true); else reject(false);
-                    })
-                    .catch((error: Error) => console.error(error))
-            }
+                            BEGIN 
 
-            else reject(false);
-        })
-
-    
+                                SELECT _validstatus FROM public._notes INTO status WHERE id = Noteid;
+                                
+                                    IF (status = FALSE)   
+                                            then  UPDATE public._notes SET _validstatus = TRUE WHERE id = Noteid;
+                                            else  UPDATE public._notes SET _validstatus = FALSE WHERE id = Noteid;
+                                    END IF;
+            
+                        END $$;
+                    `
+            })
+                .then((result: any) =>  { if (result["command"] == "DO") resolve(true); else reject(false); console.log(result); })
+                .catch((error: Error) => console.error(error))
     })
 }
 
 
-// wait 
 export const Note_like: any = async (userid: number, noteid: number) => 
-{
-    //! check presence of note in midware
-
+{    
+    // Main proccess completed
     return new Promise((resolve, reject) => 
     {
-        utils.posgres_client.query(`INSERT INTO n_like(_userid, _noteid, _liken) VALUES($1, $2, $3);`, [userid, noteid, 1])
-            .then((result: any) => 
-            {
-                if (result["rowCount"] == 1) resolve(true); else reject(false);
-            })
+        utils.posgres_client.query({
+
+        text: `
+            DO $$             
+                DECLARE Status BOOLEAN;
+                DECLARE _Result INTEGER;
+                DECLARE UserId VARCHAR:= ${userid};
+                DECLARE NoteId INTEGER:= ${noteid};
+            
+                BEGIN 
+                    SELECT id FROM public.n_like INTO _Result WHERE _noteid = NoteId AND _userid = UserId;
+                    
+                    IF NOT FOUND 
+                        THEN  INSERT INTO public.n_like(_userid, _noteid, _liken) VALUES(UserId, NoteId, TRUE);
+                        
+                        ELSE  SELECT _liken FROM public.n_like INTO Status WHERE _noteid = NoteId AND _userid = UserId;
+                                IF (Status = TRUE)  
+                                        THEN UPDATE public.n_like SET _liken = FALSE WHERE _noteid = NoteId AND _userid = UserId;
+                                        ELSE UPDATE public.n_like SET _liken = TRUE  WHERE _noteid = NoteId AND _userid = UserId;
+                                END IF;
+                    END IF;
+            END $$;
+            `
+        })
+
+            .then((result: any) =>   { if (result["command"] == "DO") resolve(true); else reject(false); })
             .catch((error: Error) => console.error(error))
     })
 
@@ -142,16 +152,13 @@ export const Note_like: any = async (userid: number, noteid: number) =>
 export const Note_comment: any = async (userid: number, noteid: number, comment: string) => 
 {
     // main proccess completed 
-    //! check presence of note in midware
-    
     return new Promise((resolve, reject) => 
     {
         utils.posgres_client.query(`INSERT INTO n_comment(_userid, _noteid, _comment) VALUES($1, $2, $3);`, [userid, noteid, comment]) 
-            .then((result: any) => 
-            {
-                if (result["rowCount"] == 1) resolve(true); else reject(false);
-            })
+            .then((result: any) => { if (result["rowCount"] == 1) resolve(true); else reject(false); })
             .catch((error: Error) => console.error(error))
 
     })
 }
+
+ 

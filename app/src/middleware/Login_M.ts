@@ -15,9 +15,7 @@ export const presence_user_InRedis_login: any = async (req: Request, res: Respon
         
     .then((username_result: any) => 
         {
-    
-            utils.redis_client.lRange("emails", 0, -1)
-                
+            utils.redis_client.lRange("emails", 0, -1)       
             .then((email_result: any) => 
                     {
                         // username_result.length + 1 for: ?
@@ -69,7 +67,7 @@ export const check_session_logout: any = async (req: Request, res: Response, nex
 {   
     let token: string;
     token = JSON.stringify(req.cookies.token)
-    console.log("chech_session_logout: ", req.cookies.token)
+    console.log("check_session_logout: ", req.cookies.token)
     
     if (token != undefined) return next()
     else return res.status(400).json({ ok: false, msg: "you are not have account already" })

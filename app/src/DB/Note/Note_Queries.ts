@@ -98,8 +98,8 @@ export const Note_accept: any = async (/*accepter: string,*/ noteid: number) =>
                                 SELECT _validstatus FROM public._notes INTO status WHERE id = Noteid;
                                 
                                     IF (status = FALSE)   
-                                            then  UPDATE public._notes SET _validstatus = TRUE WHERE id = Noteid;
-                                            else  UPDATE public._notes SET _validstatus = FALSE WHERE id = Noteid;
+                                            THEN  UPDATE public._notes SET _validstatus = TRUE WHERE id = Noteid;
+                                            ELSE  UPDATE public._notes SET _validstatus = FALSE WHERE id = Noteid;
                                     END IF;
             
                         END $$;
@@ -161,4 +161,3 @@ export const Note_comment: any = async (userid: number, noteid: number, comment:
     })
 }
 
- 

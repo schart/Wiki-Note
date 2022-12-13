@@ -1,4 +1,4 @@
-import express, { Application, Request, Response } from 'express';
+import express, {  Request, Response } from 'express';
 import * as routers from './routers/AllRoutes';
 import cookieParser from 'cookie-parser';
 import * as Models from "./model/Mongo_M";
@@ -15,13 +15,15 @@ utils
 import * as Note_Models from "./model/PostgreSql_M"
 
 // not delete Notes keep in this 
-const Note: any = new Note_Models.Note
+const Note = new Note_Models.Note;
 // Note.delete_all_table() -> for delete all table in db
-Note.init()
+Note.init_note()
+Note.init_follow()
+Note.init_notification()
 
-// DNote -> Deleted notes keep in this 
-const DNote: any = new Note_Models.Deleted_Notes
-DNote.init()
+//DNote -> Deleted notes keep in this 
+//const DNote: any = new Note_Models.Deleted_Notes
+//DNote.init()
 
 
 const app: any = express()
@@ -40,21 +42,22 @@ app.use('/user', routers.UserRoute);
 
 
 // For parsing data in cache
-utils.redis_client.lRange("usernames", 0, -1).then((res: any) => console.log(res))
-utils.redis_client.lRange("emails", 0, -1).then((res: any) => console.log(res))
+utils.redis_client.lRange("usernames", 0, -1).then((result: any) => console.log(result))
+utils.redis_client.lRange("emails", 0, -1).then((result: any) => console.log(result))
 
 
 //! for delete all data in keys
- /*
+/*
 utils.redis_client.del("usernames").then((res: any) => console.log(res))
 utils.redis_client.del("emails").then((res: any) => console.log(res))
- */
+*/
 
 app.get('/', (req: Request, res: Response) => 
 {
     const Get_Users: any = Models.Users.find()
         .then((result: any) => res.json("results: " + Get_Users))
         .catch((error: Error) => res.json(error))
+        
 
 })
 

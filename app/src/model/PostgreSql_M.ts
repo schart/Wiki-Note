@@ -18,7 +18,7 @@ export class Note
     }
 
 
-    init = () => 
+    init_note = () => 
     {
         // FileN -> File name     
 
@@ -84,51 +84,48 @@ export class Note
             );
         `)
     }
-}
 
-
-class Users 
-{
-    init =  () => 
+    init_follow =  () => 
     {
     
         const Follow: string = utils.posgres_client.query
             (`
                 CREATE TABLE IF NOT EXISTS U_follow
                 (
-                    ID INT NOT NULL GENERATED ALWAYS AS IDENTITY PRIRMARY KEY,
+                    ID INT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
                     _Follower INT NOT NULL,
                     _Followed INT NOT NULL, 
-                    _Status BOOLEAN NOT NULL DEFAULT 1 -- If status equal to 1, that get meaning follow.
+                    _Status BOOLEAN NOT NULL DEFAULT FALSE -- If status equal to 1, that get meaning follow.
                 )    
             
             `)
-
-
-            const Notification: string = utils.posgres_client.query
-            (`
-                CREATE TABLE IF NOT EXISTS U_notification
-                (
-                    ID INT NOT NULL GENERATED ALWAYS AS IDENTITY PRIRMARY KEY,
-                    _NotificatorId INT NOT NULL, -- Notificator get mean: who is did shared notification
-                    _Message VARCHAR(80) NOT NULL, 
-                    _Status BOOLEAN NOT NULL DEFAULT FALSE -- if was read notification, that variable with name "status" equal to true
-            
-            `)
-
-
-            const MessageBox: string = utils.posgres_client.query
-            (`
-                CREATE TABLE IF NOT EXISTS U_messageBox
-                (    
-                    ID INT NOT NULL GENERATED ALWAYS AS IDENTITY PRIRMARY KEY,
-                    _NotificationId VARCHAR(50) NOT NULL                
-                
-                )
-            `)
     } 
 
+    init_notification =  () => 
+    {
+        const Notification: string = utils.posgres_client.query
+        (`
+            CREATE TABLE IF NOT EXISTS U_notification
+            (
+                ID INT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                _NotificatorId INT NOT NULL, -- Notificator get mean: who is did shared notification
+                _Message VARCHAR(80) NOT NULL, 
+                _Status BOOLEAN NOT NULL DEFAULT FALSE -- if was read notification, that variable with name "status" equal to true
+            )
+        `)
+
+
+       /* const MessageBox: string = utils.posgres_client.query
+        (`
+            CREATE TABLE IF NOT EXISTS U_messageBox
+            (    
+                ID INT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                _NotificationId VARCHAR(50) NOT NULL                
+            )
+        `)*/
+    }
 }
+
 
 /*
 // Doesn't create table except "DNotes"

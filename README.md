@@ -1,6 +1,7 @@
 # Wiki-Note
 This project is a project based on my love for knowledge.
 
+!: that get mean: this proccess completed in project
 Contains: 
 Login!, 
 Register!, 
@@ -8,8 +9,8 @@ Upload Pdf!,
 Comment!, 
 Profile photo!,  
 Like!, 
-Follow, 
-Unfollow, 
+Follow!, 
+Unfollow!, 
 Notification, 
 Give Perrmission,   
 Read at late.
@@ -50,9 +51,11 @@ Routers:
        
         User & Its proccess: 
                 Test User:
+                        "user/follow": user follow (follow) => SUCCESS
                         "user/photo-update": User set photo (photo) => SUCCESS 
 
                         Requierements: 
+                                Follow, Unfollow => (follower and followed id)
                                 Change Photo => Only new a photo 
 
 

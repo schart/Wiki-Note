@@ -53,8 +53,7 @@ export let Follow_user: any = async (followerId: any, followedId: any) =>
             `            
         }).then((result: any) => 
         {
-            if (result["command"] == "DO") return resolve(true);
-            else return reject(false);
+            if (result["command"] == "DO") return resolve(true); else return reject(false);
         }) 
         .catch((error: Error) => console.log(error)) 
 
@@ -62,3 +61,39 @@ export let Follow_user: any = async (followerId: any, followedId: any) =>
     })
 
 }
+
+
+export let AddNote_ToRAT: any = (UserId: string, NoteId: number) => 
+{
+    return new Promise((resolve, reject) => 
+    {
+        utils.posgres_client.query
+        ({
+            text: `
+                DO $$
+
+                    DECLARE 
+                        _result INT;
+                        UserId TEXT := 7;
+                        NoteId INT := 2;
+                
+                    BEGIN
+                        
+                        SELECT id FROM public.u_readatlater INTO _result WHERE _userid = UserId AND _noteid = NoteId AND _status = TRUE;
+                        
+                        IF NOT FOUND
+                            THEN INSERT INTO public.u_readatlater(_userid, _noteid, _status) VALUES(UserId, NoteId, TRUE);
+                            ELSE UPDATE  public.u_readatlater SET _status = FALSE WHERE id = _result; -- 'would Keep for delete';
+
+                        END IF;
+                END $$ 
+            `            
+        }).then((result: any) => 
+        {
+            if (result["command"] == "DO") return resolve(true); else return reject(false);
+        }) 
+        .catch((error: Error) => console.log(error)) 
+
+    })
+
+}   

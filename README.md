@@ -71,9 +71,8 @@ About DataBase:
 
 
 About Read at later(RAT) box:
+       
         If Status equal to FALSE, User wanna delete that Note from read at later box. 
         But we create stack of "I wanna delete notes" for deleted when server not busy.
-
-        Then user wanna get the record of note in read at later box, we should get notes but if Status equal to "True" value.
-
-        If equal to "FALSE", we must keep in stack for will delete.
+        
+        Then user wanna get the record of note in read at later box, we should get notes but if Status equal to "True" value. If equal to "FALSE", we must keep in stack for will delete.

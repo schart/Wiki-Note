@@ -3,17 +3,17 @@ This project is a project based on my love for knowledge.
 
 !: that get mean: this proccess completed in project
 Contains: 
-Login!, 
-Register!, 
-Upload Pdf!, 
-Comment!, 
-Profile photo!,  
-Like!, 
-Follow!, 
-Unfollow!, 
-Notification, 
-Give Perrmission,   
-Read at late.
+        Login!, 
+        Register!, 
+        Upload Pdf!, 
+        Comment!, 
+        Profile photo!,  
+        Like!, 
+        Follow!, 
+        Unfollow!, 
+        Read at late!.
+        Notification, 
+        Give Perrmission,   
 
 
 
@@ -51,12 +51,14 @@ Routers:
        
         User & Its proccess: 
                 Test User:
-                        "user/follow": user follow (follow) => SUCCESS
+                        "user/follow": user follow/unfollow (follow/unfollow) => SUCCESS
                         "user/photo-update": User set photo (photo) => SUCCESS 
+                        "user/add-rat/noteId": Add a note to read at later (add) => SUCCESS
 
                         Requierements: 
-                                Follow, Unfollow => (follower and followed id)
-                                Change Photo => Only new a photo 
+                                Follow, Unfollow => (follower and followed id).
+                                Change Photo => Only new a photo.
+                                Add to RAT => Only Id of note. (BTW Id comes as auto)
 
 
 About DataBase:
@@ -65,4 +67,13 @@ About DataBase:
         
         Warn: I am do not use function of db code as async, because if you are using as async "create table function" does not wait "delete table function" and "delete table function" will work with "create table" at same time, so our tables will comes to we as missing.
 
-        We're will make functions for CRUD proccess  
+        We're will make functions for CRUD proccess.  
+
+
+About Read at later(RAT) box:
+        If Status equal to FALSE, User wanna delete that Note from read at later box. 
+        But we create stack of "I wanna delete notes" for deleted when server not busy.
+
+        Then user wanna get the record of note in read at later box, we should get notes but if Status equal to "True" value.
+
+        If equal to "FALSE", we must keep in stack for will delete.

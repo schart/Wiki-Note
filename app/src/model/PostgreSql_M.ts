@@ -1,6 +1,6 @@
 import * as utils from '../utils/utils';
 
-export class Note 
+export class DB 
 {
 
     delete_all_table = () =>
@@ -93,8 +93,8 @@ export class Note
                 CREATE TABLE IF NOT EXISTS U_follow
                 (
                     ID INT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                    _Follower INT NOT NULL,
-                    _Followed INT NOT NULL, 
+                    _FollowerId INT NOT NULL,
+                    _FollowedId INT NOT NULL, 
                     _Status BOOLEAN NOT NULL DEFAULT FALSE -- If status equal to 1, that get meaning follow.
                 )    
             
@@ -114,16 +114,26 @@ export class Note
             )
         `)
 
-
-       /* const MessageBox: string = utils.posgres_client.query
-        (`
-            CREATE TABLE IF NOT EXISTS U_messageBox
-            (    
-                ID INT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                _NotificationId VARCHAR(50) NOT NULL                
-            )
-        `)*/
     }
+
+    init_readAtLater = () => 
+    {
+        const ReadAtLater: string = utils.posgres_client.query
+        (`
+        
+        CREATE TABLE IF NOT EXISTS U_readAtLater
+        (
+            ID INT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+            _UserId VARCHAR(80) NOT NULL,  
+            _NoteId INT NOT NULL,
+            _Status BOOLEAN NOT NULL DEFAULT TRUE 
+            -- If Status equal to FALSE, User wanna delete that Note from read at later box. But we create stack of "I wanna delete notes" for deleted when server not busy
+        )
+        
+        `)
+
+    }
+
 }
 
 

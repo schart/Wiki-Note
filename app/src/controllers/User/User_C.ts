@@ -1,5 +1,5 @@
-import e, { Request, Response, NextFunction} from 'express';
 import * as User_Queries from "../../DB/User/User_Queries"
+import e, { Request, Response} from 'express';
 import * as utils from '../../utils/utils';
 import jwtDecode from 'jwt-decode';
 import fs, { rename } from "fs"
@@ -7,8 +7,7 @@ import multer from 'multer';
 
 class User
 {
-
-    SetPhoto: any = async (req: Request, res: Response, next: NextFunction) => 
+    SetPhoto: any = async (req: Request, res: Response) => 
     { 
         const uploads: any = utils.upload_profile.single('file');
         let token: any | undefined; let fileName: any | undefined; let mayFile: any | undefined; let extension: any | undefined | null; 
@@ -43,40 +42,35 @@ class User
     }
 
 
-    Follow: any = async (req: Request, res: Response, next: NextFunction) => 
+    Follow: any = async (req: Request, res: Response) => 
     { 
         let token: any | undefined;
         token = JSON.parse(JSON.stringify(jwtDecode(req.cookies.token)))
 
-        await User_Queries.Follow_user(token.Id, 1)
+        await User_Queries.Follow_user(token.Id, req.body.followedId)
         .then((result: any | undefined) => 
         {
-            if (result == true) { res.status(200).json({ok: true, msg: "has been success"})}
+            if (result == true) res.status(200).json({ok: true, msg: "has been success"})
             else return res.status(400).json({ok: false, msg: "has got a error"}) 
         })
         .catch((error: Error) => console.log(error))
     }
 
-    Notification: any = async (req: Request, res: Response, next: NextFunction) => 
-    { 
-
+    AddNote_ToRAT: any = async (req:Request, res: Response) => 
+    {
+        let token: any;
+        let NoteId: any = req.params.noteId;
+        token = JSON.parse(JSON.stringify(jwtDecode(req.cookies.token)))
         
-        /* 
-        do $$
+        await User_Queries.AddNote_ToRAT(token.Id, NoteId)
+        .then((result: any | undefined) => 
+        {
+            if (result == true)  res.status(200).json({ok: true, msg: "has been success"});
+            else return res.status(400).json({ok: false, msg: "has got a error"});
+        })
+        .catch((error: Error) => console.log(error))
 
-        declare
-            status INTEGER;
-            
-        begin
-            SELECT _validstatus FROM public._notes into status where id = 1;
-            
-			IF (status = 0) -- that If equal one convert to 0 otherwise 1   
-                	then  UPDATE public._notes SET _validstatus = 1 WHERE id = 1;
-                	else UPDATE public._notes SET _validstatus = 0 WHERE id = 1;
-            END IF;
 
-end $$
-        */
     }
 }
 

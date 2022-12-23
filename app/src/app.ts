@@ -15,11 +15,12 @@ utils
 import * as Note_Models from "./model/PostgreSql_M"
 
 // not delete Notes keep in this 
-const Note = new Note_Models.Note;
-// Note.delete_all_table() -> for delete all table in db
-Note.init_note()
-Note.init_follow()
-Note.init_notification()
+const DB = new Note_Models.DB;
+// DB.delete_all_table() -> for delete all table in db
+DB.init_note()
+DB.init_follow()
+DB.init_notification()
+DB.init_readAtLater()
 
 //DNote -> Deleted notes keep in this 
 //const DNote: any = new Note_Models.Deleted_Notes

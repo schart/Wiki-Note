@@ -26,12 +26,12 @@ export class DB
         (` 
             CREATE TABLE IF NOT EXISTS _Notes
             (
-                ID INT NOT NULL GENERATED ALWAYS AS IDENTITY  PRIMARY KEY,
-                _UserID varchar(100) NOT NULL, 
-                _TitleID INT NOT NULL,
-                _UrlID INT NOT NULL,
-                _FileNID INT NOT NULL,
-                _ValidStatus BOOLEAN NOT NULL DEFAULT FALSE -- this is a only to be able boolean value
+                Id INT NOT NULL GENERATED ALWAYS AS IdENTITY  PRIMARY KEY,
+                _UserId varchar(100) NOT NULL, 
+                _TitleId INT NOT NULL,
+                _UrlId INT NOT NULL,
+                _FileNId INT NOT NULL,
+                _ValIdStatus BOOLEAN NOT NULL DEFAULT FALSE -- this is a only to be able boolean value
             ) 
         `)
 
@@ -39,7 +39,7 @@ export class DB
         (`
             CREATE TABLE IF NOT EXISTS N_Title
             (
-                ID INT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                Id INT NOT NULL GENERATED ALWAYS AS IdENTITY PRIMARY KEY,
                 _Title VARCHAR(50) NOT NULL
             );
             
@@ -49,7 +49,7 @@ export class DB
         (`
             CREATE TABLE IF NOT EXISTS N_Url
             (
-                ID INT NOT NULL GENERATED ALWAYS AS IDENTITY  PRIMARY KEY,
+                Id INT NOT NULL GENERATED ALWAYS AS IdENTITY  PRIMARY KEY,
                 _UrlN VARCHAR(2048) DEFAULT NULL
             );   
         `)
@@ -58,7 +58,7 @@ export class DB
         (`
             CREATE TABLE IF NOT EXISTS N_File
             (    
-                ID INT NOT NULL GENERATED ALWAYS AS IDENTITY  PRIMARY KEY,
+                Id INT NOT NULL GENERATED ALWAYS AS IdENTITY  PRIMARY KEY,
                 _FileN VARCHAR(50) NOT NULL 
             );
         `)
@@ -67,7 +67,7 @@ export class DB
         (`
             CREATE TABLE IF NOT EXISTS N_Comment
             (    
-                ID INT NOT NULL GENERATED ALWAYS AS IDENTITY  PRIMARY KEY,
+                Id INT NOT NULL GENERATED ALWAYS AS IdENTITY  PRIMARY KEY,
                 _UserId VARCHAR(100) NOT NULL,
                 _NoteId INT NOT NULL,
                 _Comment VARCHAR(500) NOT NULL
@@ -77,9 +77,9 @@ export class DB
         (`
             CREATE TABLE IF NOT EXISTS N_Like
             (    
-                ID INT NOT NULL GENERATED ALWAYS AS IDENTITY  PRIMARY KEY,
+                Id INT NOT NULL GENERATED ALWAYS AS IdENTITY  PRIMARY KEY,
                 _UserId VARCHAR(100) NOT NULL,
-                _NoteID INT NOT NULL, 
+                _NoteId INT NOT NULL, 
                 _LikeN BOOLEAN NOT NULL 
             );
         `)
@@ -92,9 +92,9 @@ export class DB
             (`
                 CREATE TABLE IF NOT EXISTS U_follow
                 (
-                    ID INT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                    _FollowerId INT NOT NULL,
-                    _FollowedId INT NOT NULL, 
+                    Id INT NOT NULL GENERATED ALWAYS AS IdENTITY PRIMARY KEY,
+                    _FollowerId VARCHAR(80) NOT NULL,
+                    _FollowedId VARCHAR(80) NOT NULL, 
                     _Status BOOLEAN NOT NULL DEFAULT FALSE -- If status equal to 1, that get meaning follow.
                 )    
             
@@ -107,10 +107,11 @@ export class DB
         (`
             CREATE TABLE IF NOT EXISTS U_notification
             (
-                ID INT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                _NotificatorId INT NOT NULL, -- Notificator get mean: who is did shared notification
-                _Message VARCHAR(80) NOT NULL, 
-                _Status BOOLEAN NOT NULL DEFAULT FALSE -- if was read notification, that variable with name "status" equal to true
+                Id INT NOT NULL GENERATED ALWAYS AS IdENTITY PRIMARY KEY,
+                _NotificatorId VARCHAR(80) NOT NULL, -- Notificator get mean: who is dId shared notification
+                _ForWhoseId VARCHAR(80) NOT NULL, -- 0 for everyone, Id for a user
+                _Message VARCHAR(80) NOT NULL 
+                --_Status BOOLEAN NOT NULL DEFAULT FALSE -- if was read notification, that variable with name "status" equal to true
             )
         `)
 
@@ -123,7 +124,7 @@ export class DB
         
         CREATE TABLE IF NOT EXISTS U_readAtLater
         (
-            ID INT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+            Id INT NOT NULL GENERATED ALWAYS AS IdENTITY PRIMARY KEY,
             _UserId VARCHAR(80) NOT NULL,  
             _NoteId INT NOT NULL,
             _Status BOOLEAN NOT NULL DEFAULT TRUE 
@@ -149,12 +150,12 @@ export class Deleted_Notes
             
             CREATE TABLE IF NOT EXISTS _DNotes
             (
-                ID INT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                _UserID varchar(80) NOT NULL, 
-                _DeleterID INT NOT NULL,
-                _TitleID VARCHAR(50) NOT NULL,
-                _UrlID VARCHAR(2048) DEFAULT null,
-                _FileNID VARCHAR(50) NOT NULL 
+                Id INT NOT NULL GENERATED ALWAYS AS IdENTITY PRIMARY KEY,
+                _UserId varchar(80) NOT NULL, 
+                _DeleterId INT NOT NULL,
+                _TitleId VARCHAR(50) NOT NULL,
+                _UrlId VARCHAR(2048) DEFAULT null,
+                _FileNId VARCHAR(50) NOT NULL 
             )
         `)
 
@@ -163,7 +164,7 @@ export class Deleted_Notes
         (`
             CREATE TABLE IF NOT EXISTS D_Title
             (
-                ID INT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                Id INT NOT NULL GENERATED ALWAYS AS IdENTITY PRIMARY KEY,
                 _Title VARCHAR(50) NOT NULL
             );
             
@@ -173,7 +174,7 @@ export class Deleted_Notes
         (`
             CREATE TABLE IF NOT EXISTS D_Url
             (
-                ID INT NOT NULL GENERATED ALWAYS AS IDENTITY  PRIMARY KEY,
+                Id INT NOT NULL GENERATED ALWAYS AS IdENTITY  PRIMARY KEY,
                 _Url VARCHAR(2048) DEFAULT null
             );   
         `)
@@ -182,7 +183,7 @@ export class Deleted_Notes
         (`
             CREATE TABLE IF NOT EXISTS D_File
             (    
-                ID INT NOT NULL GENERATED ALWAYS AS IDENTITY  PRIMARY KEY,
+                Id INT NOT NULL GENERATED ALWAYS AS IdENTITY  PRIMARY KEY,
                 _FileN VARCHAR(50) NOT NULL 
             );
         `)

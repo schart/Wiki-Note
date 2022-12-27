@@ -12,7 +12,7 @@ Contains:
         Follow!, 
         Unfollow!, 
         Read at late!.
-        Notification, 
+        Notification!, 
         Give Perrmission,   
 
 
@@ -63,7 +63,7 @@ Routers:
         Admin process:
                 Test Admin:
                         "admin/notification": admin send notification (Id and message) => SUCCESS
-                        
+
                 Requierements: 
                         Send notification => (notificatorId, forwhoseId, message).
 

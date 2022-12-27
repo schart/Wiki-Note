@@ -40,7 +40,7 @@ app.set('UPLOADS_PROFILE', './src/uploads/profile/');
 
 app.use('/note', routers.NoteRoute);
 app.use('/user', routers.UserRoute);
-
+app.use('/admin', routers.AdminRoute)
 
 // For parsing data in cache
 utils.redis_client.lRange("usernames", 0, -1).then((result: any) => console.log(result))

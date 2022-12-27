@@ -1,7 +1,7 @@
 # Wiki-Note
 This project is a project based on my love for knowledge.
 
-!: that get mean: this proccess completed in project
+!: that get mean: this process completed in project
 Contains: 
         Login!, 
         Register!, 
@@ -34,7 +34,7 @@ Routers:
                         Requierements: 
                                 Email(Format: G-mail), password(min: 8 characters)
         
-        Note & Its proccess:
+        Note & Its process:
                 Test Note:
                         "note/upload": Note upload (upload) => SUCCESS
                         "note/delete": Note delete (delete) => SUCCESS
@@ -49,7 +49,7 @@ Routers:
                                 Accept Note => Note of Id
                                 Comment Note => only content as text  
        
-        User & Its proccess: 
+        User & Its process: 
                 Test User:
                         "user/follow": user follow/unfollow (follow/unfollow) => SUCCESS
                         "user/photo-update": User set photo (photo) => SUCCESS 
@@ -60,6 +60,12 @@ Routers:
                                 Change Photo => Only new a photo.
                                 Add to RAT => Only Id of note. (BTW Id comes as auto)
 
+        Admin process:
+                Test Admin:
+                        "admin/notification": admin send notification (Id and message) => SUCCESS
+                        
+                Requierements: 
+                        Send notification => (notificatorId, forwhoseId, message).
 
 About DataBase:
 
@@ -67,7 +73,7 @@ About DataBase:
         
         Warn: I am do not use function of db code as async, because if you are using as async "create table function" does not wait "delete table function" and "delete table function" will work with "create table" at same time, so our tables will comes to we as missing.
 
-        We're will make functions for CRUD proccess.  
+        We're will make functions for CRUD process.  
 
 
 About Read at later(RAT) box:
@@ -76,3 +82,7 @@ About Read at later(RAT) box:
         But we create stack of "I wanna delete notes" for deleted when server not busy.
         
         Then user wanna get the record of note in read at later box, we should get notes but if Status equal to "True" value. If equal to "FALSE", we must keep in stack for will delete.
+
+
+About Notification: 
+        If notification "ForWhose" value equal to 0 that notification get mean "for everyone", but "ForWhose" value if equal to "spesific a user id" get secret for this user.

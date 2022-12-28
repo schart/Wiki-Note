@@ -33,8 +33,8 @@ export let Follow_user: any = async (followerId: any, followedId: any) =>
 
                         DECLARE 
                             _result BOOLEAN;
-                            followerID int := ${followerId};
-                            followedID int := ${followedId};
+                            followerID VARCHAR := ${followerId};
+                            followedID VARCHAR := ${followedId};
                     
                         BEGIN
                             

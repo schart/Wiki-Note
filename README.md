@@ -11,7 +11,7 @@ Contains:
         Like!, 
         Follow!, 
         Unfollow!, 
-        Read at late!.
+        Read at late!,
         Notification!, 
         Give Perrmission,   
 
@@ -21,48 +21,48 @@ Routers:
         Login & Register:
 
                 Test Register:
-                        "user/register": Register user (register)  =>  SUCCESS
+                        "user/register": Register user (register)  =>  SUCCESS.
 
                         Requierements: 
-                                User name(for display to other user), Email(for security), Password(your secret pass)
+                                User name(for display to other user), Email(for security), Password(your secret pass).
                 
                 Test Login: 
 
-                        "user/login": Login user (login) => SUCCESS
-                        "user/logout": Login user (logout) => SUCCESS
+                        "user/login": Login user (login) => SUCCESS.
+                        "user/logout": Login user (logout) => SUCCESS.
                         
                         Requierements: 
-                                Email(Format: G-mail), password(min: 8 characters)
+                                Email(Format: G-mail), password(min: 8 characters).
         
         Note & Its process:
                 Test Note:
-                        "note/upload": Note upload (upload) => SUCCESS
-                        "note/delete": Note delete (delete) => SUCCESS
-                        "note/like": Note like (like) => SUCCESS
-                        "note/accept": Note accept (accept) => SUCCESS
-                        "note/comment": Note comment (comment) => SUCCESS
+                        "note/upload": Note upload (upload) => SUCCESS.
+                        "note/delete": Note delete (delete) => SUCCESS.
+                        "note/like": Note like (like) => SUCCESS.
+                        "note/accept": Note accept (accept) => SUCCESS.
+                        "note/comment": Note comment (comment) => SUCCESS.
                 
                         Requierements:
-                                Upload Note => Optional(where you take-ed this note: URL), Title(title of subject), File(FileType: PDF or TXT)
-                                Delete Note => Note of Id
-                                Like Note => Note of Id
-                                Accept Note => Note of Id
-                                Comment Note => only content as text  
+                                Upload Note => Optional(where you take-ed this note: URL), Title(title of subject), File(FileType: PDF or TXT).
+                                Delete Note => Note of Id.
+                                Like Note => Note of Id.
+                                Accept Note => Note of Id.
+                                Comment Note => only content as text.  
        
         User & Its process: 
                 Test User:
-                        "user/follow": user follow/unfollow (follow/unfollow) => SUCCESS
-                        "user/photo-update": User set photo (photo) => SUCCESS 
-                        "user/add-rat/noteId": Add a note to read at later (add) => SUCCESS
+                        "user/follow": user follow/unfollow (follow/unfollow) => SUCCESS.
+                        "user/photo-update": User set photo (photo) => SUCCESS.
+                        "user/add-rat/noteId": Add a note to read at later (add) => SUCCESS.
 
                         Requierements: 
                                 Follow, Unfollow => (follower and followed id).
                                 Change Photo => Only new a photo.
-                                Add to RAT => Only Id of note. (BTW Id comes as auto)
+                                Add to RAT => Only Id of note. (BTW Id comes as auto).
 
         Admin process:
                 Test Admin:
-                        "admin/notification": admin send notification (Id and message) => SUCCESS
+                        "admin/notification": admin send notification (Id and message) => SUCCESS.
 
                 Requierements: 
                         Send notification => (notificatorId, forwhoseId, message).

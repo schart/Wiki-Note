@@ -44,11 +44,11 @@ class User
 
     Follow: any = async (req: Request, res: Response) => 
     { 
-        let token: any | undefined;
+        let token: any;
         token = JSON.parse(JSON.stringify(jwtDecode(req.cookies.token)))
 
         await User_Queries.Follow_user(token.Id, req.body.followedId)
-        .then((result: any | undefined) => 
+        .then((result: any) => 
         {
             if (result == true) res.status(200).json({ok: true, msg: "has been success"})
             else return res.status(400).json({ok: false, msg: "has got a error"}) 
@@ -63,7 +63,7 @@ class User
         token = JSON.parse(JSON.stringify(jwtDecode(req.cookies.token)))
         
         await User_Queries.AddNote_ToRAT(token.Id, NoteId)
-        .then((result: any | undefined) => 
+        .then((result: any) => 
         {
             if (result == true)  res.status(200).json({ok: true, msg: "has been success"});
             else return res.status(400).json({ok: false, msg: "has got a error"});

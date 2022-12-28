@@ -141,7 +141,7 @@ export const Note_like: any = async (userid: number, noteid: number) =>
             `
         })
 
-            .then((result: any) =>   { if (result["command"] == "DO") resolve(true); else reject(false); })
+            .then((result: any) =>   { console.log(result); if (result["command"] == "DO") resolve(true); else reject(false); })
             .catch((error: Error) => console.error(error))
     })
 

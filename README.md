@@ -3,17 +3,17 @@ This project is a project based on my love for knowledge.
 
 !: that get mean: this process completed in project
 Contains: 
-        Login!, 
-        Register!, 
-        Upload Pdf!, 
-        Comment!, 
-        Profile photo!,  
-        Like!, 
-        Follow!, 
-        Unfollow!, 
-        Read at late!,
-        Notification!, 
-        Give Perrmission,   
+        Login!
+        Register! 
+        Upload Pdf!
+        Comment!
+        Profile photo! 
+        Like!
+        Follow!
+        Unfollow!
+        Read at late!
+        Notification!
+        Give Perrmission,  
 
 
 

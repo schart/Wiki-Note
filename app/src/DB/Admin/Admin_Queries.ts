@@ -8,15 +8,8 @@ export let SendNotification: any =  async (notificatorId:string, forwhoseId:stri
             text: `INSERT INTO u_notification(_notificatorid, _forwhoseid, _message) VALUES($1, $2, $3);`,
             values: [notificatorId, forwhoseId, message]
         })
-        .then((result: any) => 
-        {
-            if (result["rowCount"] == 1) resolve(true); else reject(false); console.log(result);
-
-        }).catch((error: any) => 
-        {
-            console.log(error)
-            
-        });
+        .then((result: any) => {if (result["rowCount"] == 1) resolve(true); else reject(false);})
+        .catch((error: Error) => console.log(error));
     }
 
 )};

@@ -34,8 +34,8 @@ export const posgres_client: any = pool
 // Mongo db; Using for none relation data
 let DBurl: any = `mongodb://${Config_Json.Server.host}:${Config_Json.MongoDB.port}/${Config_Json.MongoDB.database}`
 mongoose.connect(DBurl)
-    .then((result: any) => { console.log("Successfuly connected to MongoDB") })
-    .catch((error: Error) => { console.log(error) })
+    .then((result: any) => console.log("Successfuly connected to MongoDB"))
+    .catch((error: Error) => console.log(error))
 
 
 
@@ -78,7 +78,7 @@ export const storageProfile = multer.diskStorage(
 
 export const fileFilter = (req: any, file: any, cb: any) => 
 {
-    //if (file.mimetype != "application/pdf" && file.mimetype != "text/plain") 
+    //! if (file.mimetype != "application/pdf" && file.mimetype != "text/plain") 
     if (true)   
     {
         cb(null, true);

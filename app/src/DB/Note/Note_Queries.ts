@@ -31,8 +31,6 @@ export const Note_save: any = async (userid: number, value: any) =>
                 
                         if (result != undefined) 
                             { 
-                                GetResult = result
-                                lastInsertID = GetResult["rows"][0].id
                                 // Upload file name to DB
                                 utils.posgres_client.query(`INSERT INTO N_File(_FileN) VALUES($1) returning id; `, [value[2]], (error: Error, result: Object[]) => 
                                     {
@@ -40,8 +38,7 @@ export const Note_save: any = async (userid: number, value: any) =>
                                         
                                         if (result != undefined) 
                                         { 
-                                            GetResult = result
-                                            lastInsertID = GetResult["rows"][0].id
+                                            
                                             /// Maybe false argument in query where below
                                             utils.posgres_client.query(`INSERT INTO _Notes(_UserID, _TitleID, _UrlID, _FileNID) VALUES($1, $2, $3, $4);`, [userid, lastInsertID, lastInsertID, lastInsertID], async (error: Error, result: Object[]) => 
                                                 {//!
@@ -49,7 +46,15 @@ export const Note_save: any = async (userid: number, value: any) =>
 
                                                     // Has been save all informations of info
                                                     console.log("Has been save all informations of info (user id, title, url, file)");
-                                                    if (result != undefined) resolve(true); else reject(false); 
+                                                    if (result != undefined) 
+                                                        {
+                                                            //! Add to redis for check presence
+                                                            utils.redis_client.SADD('unconfirmedNotes', `${lastInsertID}`)
+                                                            .then((result: any) =>  resolve(true))
+                                                            .catch((error: Error) => console.log(error))
+                                                            resolve(true);
+                                                        }
+                                                    else reject(false); 
                                                 }//!
                                         )}
                                         else reject(false);
@@ -74,7 +79,14 @@ export const Note_delete: any = async (noteid: number, deleter: number) =>
     return new Promise ((resolve, reject) => 
     {
         utils.posgres_client.query(`DELETE FROM _notes WHERE id = $1;`, [noteid])
-            .then((result: any) => { if (result["rowCount"] == 1) resolve(true); else reject(false); })  
+            .then((result: any) => 
+            { 
+                if (result["rowCount"] == 1) 
+                {
+                    utils.redis_client.SREM('confirmedNotes', `${noteid}`)
+                    resolve(true);
+                } 
+                else reject(false); })  
             .catch((error: any) => console.error(error))
     }
 )}
@@ -105,8 +117,24 @@ export const Note_accept: any = async (/*accepter: string,*/ noteid: number) =>
                         END $$;
                     `
             })
-                .then((result: any) =>  { if (result["command"] == "DO") resolve(true); else reject(false); console.log(result); })
-                .catch((error: Error) => console.error(error))
+                .then((result: any) =>  
+                { 
+                    if (result["command"] == "DO") 
+                    {
+                        //! Add to redis for check presence of accepted notes
+                       
+                        utils.redis_client.SADD('confirmedNotes', `${noteid}`)
+                        .then((result: any) =>  
+                        {
+                            utils.redis_client.SREM('unconfirmedNotes', `${noteid}`)
+                            resolve(true);
+                        
+                        })
+                        .catch((error: Error) => console.log(error))
+                    }
+                    else reject(false); console.log(result); 
+                
+                }).catch((error: Error) => console.error(error))
     })
 }
 

@@ -45,6 +45,8 @@ app.use('/admin', routers.AdminRoute)
 // For parsing data in cache
 utils.redis_client.lRange("usernames", 0, -1).then((result: any) => console.log(result))
 utils.redis_client.lRange("emails", 0, -1).then((result: any) => console.log(result))
+utils.redis_client.SMEMBERS("confirmedNotes").then((result: any) => console.log("confirmedNotes: ", result))
+utils.redis_client.SMEMBERS("unconfirmedNotes").then((result: any) => console.log("unconfirmedNotes: ", result))
 
 
 //! for delete all data in keys

@@ -1,0 +1,6 @@
+Bu gün midware içinde res.status bla bla diye bir http header oluşuturmaya çalıştım ardından ise nextledim lakin bunu nextleyeceksem neden http header oluşturdum ki?
+Yani direk olarak next edip main router'a geldiğinde respons'u ayarlayıp return etsem hiçbir hata almayacaktım
+
+çıkardığım ders: 
+	gereksiz yere header oluşturma
+	

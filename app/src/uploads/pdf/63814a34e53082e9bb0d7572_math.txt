@@ -1,0 +1,3 @@
+hypotenuse(hipotenüs): iki kısa kenarın karelerinin toplamları uzun kenarın karesine eşittir
+kare = bir sayının kendi ile 2 kez çarpılması sonucu oluşan olgu 
+küp = bir sayının kendi ile 3 kere çarpılması sonucu oluşan olgu 

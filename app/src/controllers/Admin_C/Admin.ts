@@ -1,6 +1,6 @@
 import e, { Request, Response, NextFunction } from 'express';
 import * as utils from "../../utils/utils";
-import * as query_functions from '../../DB/Admin/Admin_Queries'
+import * as query_functions from '../../DB/Admin_Queries/Admin'
 import jwtDecode from 'jwt-decode';
 
 class Admin {

@@ -1,7 +1,9 @@
 import e, { Request, Response, NextFunction, Application, request, response } from 'express';
 import * as types from '../../selftypes/types';
-import * as utils from '../../utils/utils';
-import * as Models from '../../model/Mongo_M';
+import * as config_redis from '../../Cache/configCache';
+import * as config_general from '../../utils/utils';
+
+import * as Models from '../../model/Mongo_M/Mongo';
 import jwt from 'jsonwebtoken'
 
 class Register_Proccess 
@@ -35,12 +37,12 @@ class Register_Proccess
                     // Data push in redis cache. For block non-recommended request
 
                     // Data Push in usernames on Redis
-                    utils.redis_client.lPush("usernames", username)
+                    config_redis.redis_client.lPush("usernames", username)
                         .then((result: any) => console.log("User Name save to Redis"))
                         .catch((error: Error) => console.log(error))
 
                     // Data Push in emails on Redis
-                    utils.redis_client.lPush("emails", email)
+                    config_redis.redis_client.lPush("emails", email)
                         .then((result: any) => console.log("User Email save to Redis"))
                         .catch((error: Error) => console.log(error))
 
@@ -50,7 +52,7 @@ class Register_Proccess
                             Id,
                             username,
                             email,
-                            STRING_KEY: utils.generateString(20)
+                            STRING_KEY: config_general.generateString(20)
                         }
 
                     let token: any = jwt.sign(payload, req.app.get('SECRET_KEY'));

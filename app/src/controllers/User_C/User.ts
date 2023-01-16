@@ -1,4 +1,4 @@
-import * as User_Queries from "../../DB/User/User_Queries"
+import * as User_Queries from "../../DB/User_Queries/User"
 import e, { Request, Response} from 'express';
 import * as utils from '../../utils/utils';
 import jwtDecode from 'jwt-decode';

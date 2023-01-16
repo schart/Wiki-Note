@@ -1,10 +1,11 @@
-import * as utils from "../../utils/utils";
+ 
+import * as config_postgres from "../../DB/configDB"
 
 export let SendNotification: any =  async (notificatorId:string, forwhoseId:string, message:string) => 
 {
     return new Promise((resolve, reject) => 
     {
-        utils.posgres_client.query({
+        config_postgres.posgres_client.query({
             text: `INSERT INTO u_notification(_notificatorid, _forwhoseid, _message) VALUES($1, $2, $3);`,
             values: [notificatorId, forwhoseId, message]
         })

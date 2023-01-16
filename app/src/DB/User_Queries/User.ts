@@ -1,5 +1,5 @@
-import * as Models from '../../model/Mongo_M';
-import * as utils from "../../utils/utils"
+import * as Models from '../../model/Mongo_M/Mongo';
+import * as config_postgres from "../../DB/configDB"
 
 
 
@@ -17,7 +17,7 @@ export let SetPhoto: any =  async (id: string | null) =>
             }) 
             .catch((error: Error) => console.log(error)) 
             
-        })  
+    })  
 };
 
 
@@ -26,7 +26,7 @@ export let Follow_user: any = async (followerId: any, followedId: any) =>
 
     return new Promise((resolve, reject) => 
     {
-        utils.posgres_client.query
+        config_postgres.posgres_client.query
         ({
             text: `
                     DO $$
@@ -51,10 +51,7 @@ export let Follow_user: any = async (followerId: any, followedId: any) =>
                             END IF;
                     END $$ 
             `            
-        }).then((result: any) => 
-        {
-            if (result["command"] == "DO") return resolve(true); else return reject(false);
-        }) 
+        }).then((result: any) => { if (result["command"] == "DO") return resolve(true); else return reject(false); }) 
         .catch((error: Error) => console.log(error)) 
 
 
@@ -67,7 +64,7 @@ export let AddNote_ToRAT: any = (UserId: string, NoteId: number) =>
 {
     return new Promise((resolve, reject) => 
     {
-        utils.posgres_client.query
+        config_postgres.posgres_client.query
         ({
             text: `
                 DO $$

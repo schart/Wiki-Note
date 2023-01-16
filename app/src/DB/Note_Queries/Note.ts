@@ -1,4 +1,5 @@
-import * as utils from "../../utils/utils"
+import * as config_redis from "../../Cache/configCache"
+import * as config_postgres from "../../DB/configDB"
 
 //!  We will do self libary for CRUD proccess for SAVE!
 
@@ -14,7 +15,7 @@ export const Note_save: any = async (userid: number, value: any) =>
     {
 
         // Upload titlte to DB
-        utils.posgres_client.query(`INSERT INTO N_Title(_Title) VALUES($1) returning id;`, [value[0]], (error: Error, result: Object[]) => 
+        config_postgres.posgres_client.query(`INSERT INTO N_Title(_Title) VALUES($1) returning id;`, [value[0]], (error: Error, result: Object[]) => 
         {
             if (error) throw error; // if there is/are error
             
@@ -25,14 +26,14 @@ export const Note_save: any = async (userid: number, value: any) =>
                 
 
                     // Upload url to DB
-                    utils.posgres_client.query(`INSERT INTO N_Url(_UrlN) VALUES($1) returning id;`, [value[1]], (error: Error, result: Object[]) => 
+                    config_postgres.posgres_client.query(`INSERT INTO N_Url(_UrlN) VALUES($1) returning id;`, [value[1]], (error: Error, result: Object[]) => 
                     { //!
                         if (error) throw error; // if there is/are error
                 
                         if (result != undefined) 
                             { 
                                 // Upload file name to DB
-                                utils.posgres_client.query(`INSERT INTO N_File(_FileN) VALUES($1) returning id; `, [value[2]], (error: Error, result: Object[]) => 
+                                config_postgres.posgres_client.query(`INSERT INTO N_File(_FileN) VALUES($1) returning id; `, [value[2]], (error: Error, result: Object[]) => 
                                     {
                                         if (error) throw error; // if there is/are error
                                         
@@ -40,7 +41,7 @@ export const Note_save: any = async (userid: number, value: any) =>
                                         { 
                                             
                                             /// Maybe false argument in query where below
-                                            utils.posgres_client.query(`INSERT INTO _Notes(_UserID, _TitleID, _UrlID, _FileNID) VALUES($1, $2, $3, $4);`, [userid, lastInsertID, lastInsertID, lastInsertID], async (error: Error, result: Object[]) => 
+                                            config_postgres.posgres_client.query(`INSERT INTO _Notes(_UserID, _TitleID, _UrlID, _FileNID) VALUES($1, $2, $3, $4);`, [userid, lastInsertID, lastInsertID, lastInsertID], async (error: Error, result: Object[]) => 
                                                 {//!
                                                     if (error) throw error; // if there is/are error
 
@@ -49,9 +50,6 @@ export const Note_save: any = async (userid: number, value: any) =>
                                                     if (result != undefined) 
                                                         {
                                                             //! Add to redis for check presence
-                                                            utils.redis_client.SADD('unconfirmedNotes', `${lastInsertID}`)
-                                                            .then((result: any) =>  resolve(true))
-                                                            .catch((error: Error) => console.log(error))
                                                             resolve(true);
                                                         }
                                                     else reject(false); 
@@ -78,15 +76,16 @@ export const Note_delete: any = async (noteid: number, deleter: number) =>
     // Main proccess completed
     return new Promise ((resolve, reject) => 
     {
-        utils.posgres_client.query(`DELETE FROM _notes WHERE id = $1;`, [noteid])
+        config_postgres.posgres_client.query(`DELETE FROM _notes WHERE id = $1;`, [noteid])
             .then((result: any) => 
             { 
                 if (result["rowCount"] == 1) 
                 {
-                    utils.redis_client.SREM('confirmedNotes', `${noteid}`)
+                    config_redis.redis_client.SREM('confirmedNotes', `${noteid}`)
                     resolve(true);
                 } 
-                else reject(false); })  
+                else reject(false); 
+            })  
             .catch((error: any) => console.error(error))
     }
 )}
@@ -98,7 +97,7 @@ export const Note_accept: any = async (/*accepter: string,*/ noteid: number) =>
     // Main proccess completed
     return new Promise((resolve, reject) => 
     {
-            utils.posgres_client.query({
+            config_postgres.posgres_client.query({
                 text: `
                         DO $$
             
@@ -110,29 +109,15 @@ export const Note_accept: any = async (/*accepter: string,*/ noteid: number) =>
                                 SELECT _validstatus FROM public._notes INTO status WHERE id = Noteid;
                                 
                                     IF (status = FALSE)   
-                                            THEN  UPDATE public._notes SET _validstatus = TRUE WHERE id = Noteid;
+                                            THEN  UPDATE public._notes SET _validstatus = TRUE WHERE id = Noteid; raise notice 'hello';
                                             ELSE  UPDATE public._notes SET _validstatus = FALSE WHERE id = Noteid;
                                     END IF;
-            
                         END $$;
                     `
-            })
-                .then((result: any) =>  
+            }).then((result: any) =>  
                 { 
-                    if (result["command"] == "DO") 
-                    {
-                        //! Add to redis for check presence of accepted notes
-                       
-                        utils.redis_client.SADD('confirmedNotes', `${noteid}`)
-                        .then((result: any) =>  
-                        {
-                            utils.redis_client.SREM('unconfirmedNotes', `${noteid}`)
-                            resolve(true);
-                        
-                        })
-                        .catch((error: Error) => console.log(error))
-                    }
-                    else reject(false); console.log(result); 
+                    if (result["command"] == "DO") return resolve(true);
+                    else reject(false);   
                 
                 }).catch((error: Error) => console.error(error))
     })
@@ -144,7 +129,7 @@ export const Note_like: any = async (userid: number, noteid: number) =>
     // Main proccess completed
     return new Promise((resolve, reject) => 
     {
-        utils.posgres_client.query({
+        config_postgres.posgres_client.query({
 
         text: `
             DO $$             
@@ -160,7 +145,8 @@ export const Note_like: any = async (userid: number, noteid: number) =>
                         THEN  INSERT INTO public.n_like(_userid, _noteid, _liken) VALUES(UserId, NoteId, TRUE);
                         
                         ELSE  SELECT _liken FROM public.n_like INTO Status WHERE _noteid = NoteId AND _userid = UserId;
-                                IF (Status = TRUE)  
+                                
+                            IF (Status = TRUE)  
                                         THEN UPDATE public.n_like SET _liken = FALSE WHERE _noteid = NoteId AND _userid = UserId;
                                         ELSE UPDATE public.n_like SET _liken = TRUE  WHERE _noteid = NoteId AND _userid = UserId;
                                 END IF;
@@ -182,7 +168,7 @@ export const Note_comment: any = async (userid: number, noteid: number, comment:
     // main proccess completed 
     return new Promise((resolve, reject) => 
     {
-        utils.posgres_client.query(`INSERT INTO n_comment(_userid, _noteid, _comment) VALUES($1, $2, $3);`, [userid, noteid, comment]) 
+        config_postgres.posgres_client.query(`INSERT INTO n_comment(_userid, _noteid, _comment) VALUES($1, $2, $3);`, [userid, noteid, comment]) 
             .then((result: any) => { if (result["rowCount"] == 1) resolve(true); else reject(false); })
             .catch((error: Error) => console.error(error))
 

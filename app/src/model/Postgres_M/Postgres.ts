@@ -1,4 +1,4 @@
-import * as utils from '../utils/utils';
+import * as utils from '../../DB/configDB';
 
 export class DB 
 {
@@ -137,55 +137,4 @@ export class DB
 }
 
 
-/*
-// Doesn't create table except "DNotes"
-export class Deleted_Notes 
-{
-    init = async () => {
-        
-        // We created "_NoteDeleted" db for keep data of deleted posts
-        const DNotes: any = utils.posgres_client.query
-        (`
-            
-            CREATE TABLE IF NOT EXISTS _DNotes
-            (
-                Id INT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                _UserId varchar(80) NOT NULL, 
-                _DeleterId INT NOT NULL,
-                _TitleId VARCHAR(50) NOT NULL,
-                _UrlId VARCHAR(2048) DEFAULT null,
-                _FileNId VARCHAR(50) NOT NULL 
-            )
-        `)
-
-
-        const DNote_title: any = utils.posgres_client.query
-        (`
-            CREATE TABLE IF NOT EXISTS D_Title
-            (
-                Id INT NOT NULL GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                _Title VARCHAR(50) NOT NULL
-            );
-            
-        `) 
-
-        const DNote_url: any = utils.posgres_client.query
-        (`
-            CREATE TABLE IF NOT EXISTS D_Url
-            (
-                Id INT NOT NULL GENERATED ALWAYS AS IDENTITY  PRIMARY KEY,
-                _Url VARCHAR(2048) DEFAULT null
-            );   
-        `)
-
-        const DNote_file: any = utils.posgres_client.query
-        (`
-            CREATE TABLE IF NOT EXISTS D_File
-            (    
-                Id INT NOT NULL GENERATED ALWAYS AS IDENTITY  PRIMARY KEY,
-                _FileN VARCHAR(50) NOT NULL 
-            );
-        `)
-    }
-} 
-*/
+//? If you wanna you can create deleted db for keep logs

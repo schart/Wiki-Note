@@ -1,66 +1,75 @@
-import express, {  Request, Response } from 'express';
-import * as routers from './routers/AllRoutes';
+import * as mongoModels from "./model/Mongo_M/Mongo";
+import express, { Request, Response } from 'express';
+import * as config_redis from './Cache/configCache';
+import * as routers from './routers/AllRouters';
 import cookieParser from 'cookie-parser';
-import * as Models from "./model/Mongo_M";
 import bodyParser from 'body-parser';
 import { Server } from 'http';
 
 
-
 // Start db tools like cursor for access
+
+
+//? Import Configs
 import * as utils from "./utils/utils";
 utils
+//? Redis 
+import * as redis from './Cache/configCache';
+redis
 
-// Start PosgreSQL DB
-import * as Note_Models from "./model/PostgreSql_M"
+//? Mongo 
+import * as mongo from './model/Mongo_M/configMongo';
+mongo
 
-// not delete Notes keep in this 
-const DB = new Note_Models.DB;
-// DB.delete_all_table() -> for delete all table in db
+//? Postgres
+import * as postgres from './model/Postgres_M/Postgres';
+postgres
+
+//! Redis
+// For parsing data in cache
+config_redis.redis_client.lRange("usernames", 0, -1).then((result: any) => console.log("Usernames: ", result))
+config_redis.redis_client.lRange("emails", 0, -1).then((result: any) => console.log("Emails: ", result))
+
+
+
+//? Create Postgres Schema
+import * as noteModels from "./model/Postgres_M/Postgres"
+
+const DB = new noteModels.DB;
+//! DB.delete_all_table()  
 DB.init_note()
 DB.init_follow()
 DB.init_notification()
 DB.init_readAtLater()
 
-//DNote -> Deleted notes keep in this 
-//const DNote: any = new Note_Models.Deleted_Notes
-//DNote.init()
+//! Create Mongo Schema
+mongoModels.Users
+
+// Fields of express in below
 
 
+//! Start express
 const app: any = express()
 
-app.use(express.urlencoded({ extended: true, limit: '50mb' }));
-app.use(bodyParser.json());
-app.use(cookieParser());
-
+//? App set 
 app.set('SECRET_KEY', 'this_secret_key');
 app.set('UPLOADS_PDF', './src/uploads/pdf/');
 app.set('UPLOADS_PROFILE', './src/uploads/profile/');
 
+//? App use
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+app.use(bodyParser.json());
+app.use(cookieParser());
 
 app.use('/note', routers.NoteRoute);
 app.use('/user', routers.UserRoute);
 app.use('/admin', routers.AdminRoute)
 
-// For parsing data in cache
-utils.redis_client.lRange("usernames", 0, -1).then((result: any) => console.log(result))
-utils.redis_client.lRange("emails", 0, -1).then((result: any) => console.log(result))
-utils.redis_client.SMEMBERS("confirmedNotes").then((result: any) => console.log("confirmedNotes: ", result))
-utils.redis_client.SMEMBERS("unconfirmedNotes").then((result: any) => console.log("unconfirmedNotes: ", result))
 
-
-//! for delete all data in keys
-/*
-utils.redis_client.del("usernames").then((res: any) => console.log(res))
-utils.redis_client.del("emails").then((res: any) => console.log(res))
-*/
-
+//! Run as firstly '/'
 app.get('/', (req: Request, res: Response) => 
 {
-    const Get_Users: any = Models.Users.find()
-        .then((result: any) => res.json("results: " + Get_Users))
-        .catch((error: Error) => res.json(error))
-        
+    res.json(200).json({ok: true, msg: "Welcome my API to social media platform "})
 
 })
 

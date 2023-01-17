@@ -38,7 +38,6 @@ UserRoute.get('/add-rat/:noteId/', user_midwares.requireAuth, User_C.AddNote_ToR
 //  Note process of User
 NoteRoute.post("/upload/", user_midwares.requireAuth, Note_C.note_upload, (req: Request, res: Response, next: NextFunction) => { })
 NoteRoute.get("/delete/:noteId/", user_midwares.requireAuth, Note_C.note_delete, (req: Request, res: Response, next: NextFunction) => { })
-NoteRoute.post("/report/", user_midwares.requireAuth, Admin_C.ReportPost, (req: Request, res: Response, next: NextFunction) => { })
 NoteRoute.get("/accept/:noteId/", user_midwares.requireAuth, Note_C.note_accept, (req: Request, res: Response, next: NextFunction) => { })
 NoteRoute.post("/comment/", user_midwares.requireAuth,  Note_C.note_comment, (req: Request, res: Response, next: NextFunction) => { })
 NoteRoute.post("/like/", user_midwares.requireAuth,  Note_C.note_like, (req: Request, res: Response, next: NextFunction) => { })
@@ -47,3 +46,4 @@ NoteRoute.post("/like/", user_midwares.requireAuth,  Note_C.note_like, (req: Req
 
 // Admin process
 AdminRoute.post("/notification/", user_midwares.requireAuth, Admin_C.Notification, (req: Request, res: Response, next: NextFunction) => { })
+AdminRoute.post("/report-note/", user_midwares.requireAuth, Admin_C.ReportPost, (req: Request, res: Response, next: NextFunction) => { })

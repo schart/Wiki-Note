@@ -73,6 +73,7 @@ export class DB
                 _Comment VARCHAR(500) NOT NULL
             );
         `)
+
         const Note_like: string = utils.posgres_client.query
         (`
             CREATE TABLE IF NOT EXISTS N_Like
@@ -83,6 +84,19 @@ export class DB
                 _LikeN BOOLEAN NOT NULL 
             );
         `)
+
+        const Note_reported: string = utils.posgres_client.query
+        (`
+            CREATE TABLE IF NOT EXISTS N_Reported
+            (    
+                Id INT NOT NULL GENERATED ALWAYS AS IDENTITY  PRIMARY KEY,
+                _ReporterId VARCHAR(80) NOT NULL,
+                _NoteId INT NOT NULL, 
+                _ReportStatus BOOLEAN NOT NULL DEFAULT FALSE
+            );
+        `)
+
+
     }
 
     init_follow =  () => 

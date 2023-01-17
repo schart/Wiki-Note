@@ -62,10 +62,12 @@ Routers:
 
         Admin process:
                 Test Admin:
-                        "admin/notification": admin send notification (Id and message) => SUCCESS.
+                        "admin/notification": admin send notification (Id and Message) => SUCCESS.
+                        "admin/report-note": admin report note (Reporter Id and Note Id) => SUCCESS.
+
 
                 Requierements: 
-                        Send notification => (notificatorId, forwhoseId, message).
+                        Send notification => (notificatorId, forwhoseId, Message).
 
 About DataBase:
 

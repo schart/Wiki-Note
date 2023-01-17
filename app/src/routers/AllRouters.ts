@@ -34,10 +34,12 @@ UserRoute.get('/logout/', login_midwares.check_session_logout, Login_C.logout, (
 UserRoute.post('/follow/', user_midwares.requireAuth, User_C.Follow, (req: Request, res: Response, next: NextFunction) => { });
 UserRoute.post('/photo-update/', user_midwares.requireAuth, login_midwares.presence_user_InRedis_login,   User_C.SetPhoto, (req: Request, res: Response, next: NextFunction) => { });
 UserRoute.get('/add-rat/:noteId/', user_midwares.requireAuth, User_C.AddNote_ToRAT, (req: Request, res: Response, next: NextFunction) => { });
+
 //  Note process of User
 NoteRoute.post("/upload/", user_midwares.requireAuth, Note_C.note_upload, (req: Request, res: Response, next: NextFunction) => { })
-NoteRoute.get("/delete/:noteId/", user_midwares.requireAuth,   /* That process endpoint for admin */ Note_C.note_delete, (req: Request, res: Response, next: NextFunction) => { })
-NoteRoute.get("/accept/:noteId/", user_midwares.requireAuth,  Note_C.note_accept, (req: Request, res: Response, next: NextFunction) => { })
+NoteRoute.get("/delete/:noteId/", user_midwares.requireAuth, Note_C.note_delete, (req: Request, res: Response, next: NextFunction) => { })
+NoteRoute.post("/report/", user_midwares.requireAuth, Admin_C.ReportPost, (req: Request, res: Response, next: NextFunction) => { })
+NoteRoute.get("/accept/:noteId/", user_midwares.requireAuth, Note_C.note_accept, (req: Request, res: Response, next: NextFunction) => { })
 NoteRoute.post("/comment/", user_midwares.requireAuth,  Note_C.note_comment, (req: Request, res: Response, next: NextFunction) => { })
 NoteRoute.post("/like/", user_midwares.requireAuth,  Note_C.note_like, (req: Request, res: Response, next: NextFunction) => { })
 //NoteRoute.post("/note-update", /* That process endpoint for admin */ Note_C.note_update, (req: Request, res: Response, next: NextFunction) => { })

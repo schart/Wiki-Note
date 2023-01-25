@@ -6,65 +6,33 @@ import * as config_postgres from "../../DB/configDB"
 
 export const Note_save: any = async (userid: number, value: any) => 
 {
-    
-    
     let  GetResult: any | undefined = null;
     let lastInsertID: number  = 0;
 
     return new Promise((resolve, reject) => 
     {
-
         // Upload titlte to DB
         config_postgres.posgres_client.query(`INSERT INTO N_Title(_Title) VALUES($1) returning id;`, [value[0]], (error: Error, result: Object[]) => 
         {
             if (error) throw error; // if there is/are error
             
             if (result != undefined) 
-            { //!
-                GetResult = result
-                lastInsertID = GetResult["rows"][0].id
+            { 
+                GetResult = result; lastInsertID = GetResult["rows"][0].id;
                 
+                //! I will do refactoring code which in below
+                try 
+                {
+                    config_postgres.posgres_client.query(`INSERT INTO N_Url(_UrlN) VALUES($1);`, [value[1]])
+                    config_postgres.posgres_client.query(`INSERT INTO N_Url(_UrlN) VALUES($2);`, [value[2]])
+                    config_postgres.posgres_client.query(`INSERT INTO _Notes(_UserID, _TitleID, _UrlID, _FileNID) VALUES($1, $2, $3, $4);`, [userid, lastInsertID, lastInsertID, lastInsertID])
+                    resolve(true);
+                }
+                catch { reject(false) }
 
-                    // Upload url to DB
-                    config_postgres.posgres_client.query(`INSERT INTO N_Url(_UrlN) VALUES($1) returning id;`, [value[1]], (error: Error, result: Object[]) => 
-                    { //!
-                        if (error) throw error; // if there is/are error
-                
-                        if (result != undefined) 
-                            { 
-                                // Upload file name to DB
-                                config_postgres.posgres_client.query(`INSERT INTO N_File(_FileN) VALUES($1) returning id; `, [value[2]], (error: Error, result: Object[]) => 
-                                    {
-                                        if (error) throw error; // if there is/are error
-                                        
-                                        if (result != undefined) 
-                                        { 
-                                            
-                                            /// Maybe false argument in query where below
-                                            config_postgres.posgres_client.query(`INSERT INTO _Notes(_UserID, _TitleID, _UrlID, _FileNID) VALUES($1, $2, $3, $4);`, [userid, lastInsertID, lastInsertID, lastInsertID], async (error: Error, result: Object[]) => 
-                                                {//!
-                                                    if (error) throw error; // if there is/are error
-
-                                                    // Has been save all informations of info
-                                                    console.log("Has been save all informations of info (user id, title, url, file)");
-                                                    if (result != undefined) 
-                                                        {
-                                                            //! Add to redis for check presence
-                                                            resolve(true);
-                                                        }
-                                                    else reject(false); 
-                                                }//!
-                                        )}
-                                        else reject(false);
-                                    }
-                            )}
-                            else reject(false);
-                    }//!
-            )}//!
-            else reject(false);
+            } else reject(false);
         }
     )}
-
 )}
 
 

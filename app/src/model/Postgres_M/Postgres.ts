@@ -27,7 +27,7 @@ export class DB
             CREATE TABLE IF NOT EXISTS _Notes
             (
                 Id INT NOT NULL GENERATED ALWAYS AS IDENTITY  PRIMARY KEY,
-                _UserId varchar(100) NOT NULL, 
+                _UserId VARCHAR(100) NOT NULL, 
                 _TitleId INT NOT NULL,
                 _UrlId INT NOT NULL,
                 _FileNId INT NOT NULL,

@@ -13,7 +13,7 @@ Contains:
         Unfollow!
         Read at late!
         Notification!
-        Give Perrmission,  
+        Give Perrmission ( can admin only ),  
 
 
 
@@ -73,9 +73,10 @@ About DataBase:
 
         We using two different database. while primary DB(Postgresql) for relation data secondary DB(MongoDB) for none relation data and there is Redis on Cache for quickly response.
         
-        Warn: I am do not use function of db code as async, because if you are using as async "create table function" does not wait "delete table function" and "delete table function" will work with "create table" at same time, so our tables will comes to we as missing.
+        Warning: 
+                I am do not use function of db code as async, because if you are using as async "create table function" does not wait "delete table function" and "delete table function" will work with "create table" at same time, so our tables will comes to we as missing.
 
-        We're will make functions for CRUD process.  
+        We are will make functions for CRUD process.  
 
 
 About Read at later(RAT) box:
@@ -89,3 +90,7 @@ About Read at later(RAT) box:
 About Notification: 
         
         If notification "ForWhose" value equal to 0 that notification get mean "for everyone", but "ForWhose" value if equal to "spesific a user id" get secret for this user.
+
+Give permission: 
+        This permission for manage Notifications, Notes, user etc.
+        And only Ompiyotent/Owner can give this permission to you!

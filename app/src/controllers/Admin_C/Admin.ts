@@ -1,4 +1,4 @@
-import * as admin_query from '../../DB/Admin_Queries/Admin';
+import * as admin_query from '../../DB/Admin_Queries/Insert/Admin';
 import e, { Request, Response, NextFunction } from 'express';
 import jwtDecode from 'jwt-decode';
 

@@ -1,5 +1,5 @@
 import e, { Request, Response, NextFunction} from 'express';
-import * as query_functions from "../../DB/Note_Queries/Note";
+import * as query_functions from "../../DB/Note_Queries/Insert/Note";
 import * as utils from '../../utils/utils';
 import jwtDecode from 'jwt-decode';
 import multer from 'multer';

@@ -92,5 +92,6 @@ About Notification:
         If notification "ForWhose" value equal to 0 that notification get mean "for everyone", but "ForWhose" value if equal to "spesific a user id" get secret for this user.
 
 Give permission: 
+
         This permission for manage Notifications, Notes, user etc.
         And only Ompiyotent/Owner can give this permission to you!

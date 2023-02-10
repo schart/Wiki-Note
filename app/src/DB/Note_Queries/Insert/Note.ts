@@ -72,7 +72,7 @@ export const Note_accept: any = async (/*accepter: string,*/ noteid: number) =>
                             DECLARE status BOOLEAN;
                             DECLARE Noteid INTEGER := ${noteid};
 
-                            BEGIN 
+                            BEGIN  
 
                                 SELECT _validstatus FROM public._notes INTO status WHERE id = Noteid;
                                 

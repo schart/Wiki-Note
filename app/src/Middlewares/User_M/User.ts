@@ -1,4 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
+import * as Models from '../../model/Mongo_M/Mongo';
+import jwtDecode from 'jwt-decode';
 import jwt from 'jsonwebtoken';
 
 export const requireAuth = (req: Request, res: Response, next: NextFunction) => {
@@ -67,7 +69,6 @@ export const NorequireAuth = (req: Request, res: Response, next: NextFunction) =
         This middleware for check status login for redirect login
 
     */
-
     let token = JSON.stringify(req.cookies.token)
     console.log('midware: ', token)
 
@@ -77,4 +78,21 @@ export const NorequireAuth = (req: Request, res: Response, next: NextFunction) =
     } else {
         return res.status(400).json({ ok: false, msg: "you are already have a account" })
     }
+}
+
+
+export const isAdminTrue: any = async (req: Request, res: Response, next: NextFunction) => {
+    let token: any; token = JSON.parse(JSON.stringify(jwtDecode(req.cookies.token)));
+
+    
+    await Models.Users.findOne({_id: token.Id})
+        .then((result: any) => 
+        {
+            if (result._Admin == false) return res.status(401).json({ok: false, msg: "You don't have permission"})
+            else console.log(result), next()
+        })
+        .catch((error: Error) => console.error("err: ", error))
+
+
+
 }

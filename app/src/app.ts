@@ -62,6 +62,7 @@ app.use(cookieParser());
 app.use('/note', routers.NoteRoute);
 app.use('/user', routers.UserRoute);
 app.use('/admin', routers.AdminRoute);
+app.use('/comment', routers.CommentRoute);
 
 //! Run as firstly '/'
 app.get('/', (req: Request, res: Response) => res.json(200).json({ok: true, msg: "Welcome my API to social media platform "})) 

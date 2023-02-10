@@ -94,4 +94,4 @@ About Notification:
 Give permission: 
 
         This permission for manage Notifications, Notes, user etc.
-        And only Ompiyotent/Owner can give this permission to you!
+        And only Omnipotent/Owner can give this permission to you!

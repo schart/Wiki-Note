@@ -38,10 +38,11 @@ import { Server } from 'http';
     DB.init_readAtLater()
 
 
-    //! Redis
-    // For parsing data in cache
-    config_redis.redis_client.lRange("usernames", 0, -1).then((result: any) => console.log("Usernames: ", result))
-    config_redis.redis_client.lRange("emails", 0, -1).then((result: any) => console.log("Emails: ", result))
+    //! Redis print
+    //?config_redis.redis_client.del("usernames").then((result: any) => console.log("Usernames: ", result));
+    //?config_redis.redis_client.del("emails").then((result: any) => console.log("Usernames: ", result));
+    config_redis.redis_client.lRange("usernames", 0, -1).then((result: any) => console.log("Usernames: ", result));
+    config_redis.redis_client.lRange("emails", 0, -1).then((result: any) => console.log("Emails: ", result));
 
 
 //! Fields of express in below

@@ -5,28 +5,28 @@ import * as Cache from '../../Cache/Login-Register_Queries/Login-Register'
 
 // pre check presence for login
 export const presence_user_InRedis_login: any = async (req: Request, res: Response, next: NextFunction) => 
-
 {
-    console.log("PresenceUserInRedis Login:", req.body)
+    
     const username: any = req.body.username;
     const email: any = req.body.email;
 
     await Cache.precenceLogin(username, email)
-    .then((result: any) => 
-    {
-        if (result == true)
+        .then((result: any) => 
         {
-            res.locals.username = req.body.username;
-            res.locals.password = req.body.password;
-            next();
-        }    
-        else res.status(400).json({ ok: false, msg: "User, could not found" })
-    
-    }).catch((error: any) => 
-    {
-        if (error == "email-error") res.status(400).json({ ok: false, msg: "Email error" })
-        else res.status(400).json({ ok: false, msg: "username error" })
-    });
+            
+            if (result == true)
+            {
+                res.locals.username = req.body.username;
+                res.locals.password = req.body.password;
+                next();
+            }    
+            else res.status(400).json({ ok: false, msg: "User, could not found" })
+        
+        }).catch((error: any) => 
+        {
+            if (error == "email-error") res.status(400).json({ ok: false, msg: "Email error" })
+            else res.status(400).json({ ok: false, msg: "username error" })
+        });
     
 }
 

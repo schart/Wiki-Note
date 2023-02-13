@@ -7,9 +7,7 @@ export const requireAuth = (req: Request, res: Response, next: NextFunction) => 
     /*
         This middlleware check status presence of session 
     */
-
     let token = JSON.stringify(req.cookies.token)
-    console.log('midware: ', token)
 
     if (token != undefined) return next();
     else return res.status(400).json({ ok: false, msg: "Token is not you are not authorized to that proccess." });
@@ -73,7 +71,6 @@ export const NorequireAuth = (req: Request, res: Response, next: NextFunction) =
     console.log('midware: ', token)
 
     if (token == undefined) {
-        console.log("[NorequireAuth] next the layer")
         return next(); // go other layer
     } else {
         return res.status(400).json({ ok: false, msg: "you are already have a account" })

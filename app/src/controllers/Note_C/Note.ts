@@ -70,7 +70,7 @@ class Note
     {
         let token: any; token = JSON.parse(JSON.stringify(jwtDecode(req.cookies.token)));
 
-        await query_functions.Note_comment(token.Id, req.body.noteid, req.body.comment)
+        await query_functions.Note_comment(token.Id, req.body.noteId, req.body.comment)
             .then((result: any) => { if (result == true) return res.status(200).json({ ok: true, msg: "has been shared" }) })
             .catch((error: Error) => { return res.status(400).json({ ok: false, error, msg: "there are problems please try again at later" }) })
     }

@@ -1,4 +1,5 @@
 import * as config_postgres from "../../configDB"
+import * as Models from '../../../model/Mongo_M/Mongo';
 
 export let sendNotification: any =  async (notificatorId:string, forwhoseId:string, message:string) => 
 {
@@ -14,7 +15,7 @@ export let sendNotification: any =  async (notificatorId:string, forwhoseId:stri
 
 )};
 
-export let reportNote: any =  async (noteid: any, reporterid: any) => 
+export let reportNote: any =  async (reporterid: any, noteid: any,) => 
 {
     return new Promise((resolve, reject) => 
     {
@@ -42,4 +43,30 @@ export let reportNote: any =  async (noteid: any, reporterid: any) =>
         .then((result: any) => { if (result["command"] == "DO") resolve(true); else reject(false); })
         .catch((error: Error) => console.log("error: ", error));
     })
+}
+
+
+export let givePermission: any =  async (userId: any) => 
+{
+    
+    return new Promise((resolve, reject) => 
+    {
+
+        let status: Boolean;
+        Models.Users.findOne({"_id": userId})
+                .then((result: any) => 
+                {
+                    
+                    if (result._Admin == true) status = false
+                    else status = true;
+
+                    Models.Users.updateOne({"_id": userId, "_Admin": status})
+                        .then((result: any) =>  { if (result["acknowledged"] == true) return resolve(true); else return reject(false); })
+                        .catch((error: Error) => console.log(error))      
+                })
+                .catch((error: Error) => console.log(error))
+
+        
+    })
+
 }

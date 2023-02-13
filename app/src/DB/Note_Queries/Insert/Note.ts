@@ -23,9 +23,11 @@ export const Note_save: any = async (userid: number, value: any) =>
                 //! I will do refactoring code which in below
                 try 
                 {
+                    console.log(lastInsertID)
                     config_postgres.posgres_client.query(`INSERT INTO N_Url(_UrlN) VALUES($1);`, [value[1]])
-                    config_postgres.posgres_client.query(`INSERT INTO N_Url(_UrlN) VALUES($2);`, [value[2]])
+                    config_postgres.posgres_client.query(`INSERT INTO N_Url(_UrlN) VALUES($1);`, [value[2]])
                     config_postgres.posgres_client.query(`INSERT INTO _Notes(_UserID, _TitleID, _UrlID, _FileNID) VALUES($1, $2, $3, $4);`, [userid, lastInsertID, lastInsertID, lastInsertID])
+
                     resolve(true);
                 }
                 catch { reject(false) }
@@ -97,6 +99,7 @@ export const Note_like: any = async (userid: number, noteid: number) =>
     // Main proccess completed
     return new Promise((resolve, reject) => 
     {
+
         config_postgres.posgres_client.query({
 
         text: `

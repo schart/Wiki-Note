@@ -15,8 +15,8 @@ export let precenceLogin: any = (username: any, email: any) =>
                         // username_result.length + 1 for: ?
                         for (let i = 0; i < username_result.length + 1; i++) 
                         {
-                            if (username == username_result[i] && email == email_result[i])  resolve(true);
-                            else resolve(false);
+                            if (username == username_result[i] && email == email_result[i])  return resolve(true);
+                            else return resolve(false);
                         }
 
                     })
@@ -37,10 +37,8 @@ export let precenceRegister: any = (username: any, email: any) =>
 
         utils.redis_client.lRange("usernames", 0, -1)
         .then((username_result: any) => 
-
         {
-            utils.redis_client.lRange("emails", 0, -1)
-                
+            utils.redis_client.lRange("emails", 0, -1)    
                 .then((email_result: any) => 
                 {
                     // username_result.length + 1 for: ?                   

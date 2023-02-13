@@ -13,61 +13,63 @@ Contains:
         Unfollow!
         Read at late!
         Notification!
-        Give Perrmission ( can admin only ),  
-
+        Give Perrmission (can admin only)  
 
 
 Routers:
         Login & Register:
 
                 Test Register:
-                        "user/register": Register user (register)  =>  SUCCESS.
+                        "user/register": Register user.
 
                         Requierements: 
-                                User name(for display to other user), Email(for security), Password(your secret pass).
+                                POST Key-Format: email, username, password  
                 
                 Test Login: 
 
-                        "user/login": Login user (login) => SUCCESS.
-                        "user/logout": Login user (logout) => SUCCESS.
+                        "user/login" : Login user.
+                        "user/logout": Logout user.  
                         
                         Requierements: 
-                                Email(Format: G-mail), password(min: 8 characters).
+                                POST Key-Format: Email(Format: G-mail), password(min: 8 characters).
+                                GET  Key-Format: username, password 
         
         Note & Its process:
                 Test Note:
-                        "note/upload": Note upload (upload) => SUCCESS.
-                        "note/delete": Note delete (delete) => SUCCESS.
-                        "note/like": Note like (like) => SUCCESS.
-                        "note/accept": Note accept (accept) => SUCCESS.
-                        "note/comment": Note comment (comment) => SUCCESS.
+                        "note/upload"         : Note upload.
+                        "note/delete"         : Note delete. 
+                        "note/like"           : Note like.  
+                        "note/accept/:noteId" : Note accept.  
+                        "note/comment"        : Note comment  
                 
                         Requierements:
-                                Upload Note => Optional(where you take-ed this note: URL), Title(title of subject), File(FileType: PDF or TXT).
-                                Delete Note => Note of Id.
-                                Like Note => Note of Id.
-                                Accept Note => Note of Id.
-                                Comment Note => only content as text.  
+                                POST  Upload Note  =>  Key-Format: file(pdf: named file), title, url
+                                GET   Delete Note  =>  Key-Format: noteId
+                                POST  Like Note    =>  Key-Format: noteId
+                                GET   Accept Note  =>  Key-Format: noteId
+                                POST  Comment Note =>  Key-Format: noteId, comment
        
-        User & Its process: 
                 Test User:
-                        "user/follow": user follow/unfollow (follow/unfollow) => SUCCESS.
-                        "user/photo-update": User set photo (photo) => SUCCESS.
-                        "user/add-rat/noteId": Add a note to read at later (add) => SUCCESS.
+                        "user/follow": user follow/unfollow. 
+                        "user/photo-update": User set photo.    
+                        "user/add-rat/:noteId": Add a note to read at later.
 
                         Requierements: 
-                                Follow, Unfollow => (follower and followed id).
-                                Change Photo => Only new a photo.
-                                Add to RAT => Only Id of note. (BTW Id comes as auto).
+                                POST Follow, Unfollow => Key-Format: followedId 
+                                POST Change Photo     => Key-Format: photo(image type named: photo) 
+                                GET  Add to RAT       => Key-Format: NoteId (But this argument may come as auto with button)
 
         Admin process:
                 Test Admin:
-                        "admin/notification": admin send notification (Id and Message) => SUCCESS.
-                        "admin/report-note": admin report note (Reporter Id and Note Id) => SUCCESS.
+                        "admin/notification"            :    admin send notification 
+                        "admin/report-note"             :    admin report note   
+                        "admin/give-permission/:userId" :    admin give permission 
 
 
                 Requierements: 
-                        Send notification => (notificatorId, forwhoseId, Message).
+                        POST Send notification => Key-Format: whoseId, message
+                        POST Send report       => Key-Format: noteId 
+                        GET Give permission    => Key-Format: userId 
 
 About DataBase:
 

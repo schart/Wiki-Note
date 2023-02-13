@@ -30,16 +30,20 @@ export const storageProfile = multer.diskStorage(
 });
 
 
-export const fileFilter = (req: any, file: any, cb: any) => 
+export const fileFilter_pdf = (req: any, file: any, cb: any) => 
 {
-    //! if (file.mimetype != "application/pdf" && file.mimetype != "text/plain") 
     if (file.mimetype == "application/pdf") cb(null, true);
-    else cb(new Error("Image uploaded is not of type jpg/jpeg or png"), false);
+    else cb(new Error("Allows just pdf type file"), false);
     
 }
+export const fileFilter_profile = (req: any, file: any, cb: any) => 
+{
+    if (file.mimetype == "image/png" || file.mimetype == "image/" || file.mimetype == "image/") cb(null, true);
+    else cb(new Error("Image uploaded is not of type jpg/jpeg or png"), false);
+}
 
-export const upload_pdf: any = multer({ storage: storagePdf,  fileFilter: fileFilter, limits: { fieldSize: 10 * (1024 * 1024) } });
-export const upload_profile: any = multer({ storage: storageProfile,  fileFilter: fileFilter, limits: { fieldSize: 10 * (1024 * 1024) } });
+export const upload_pdf: any = multer({ storage: storagePdf,  fileFilter: fileFilter_pdf, limits: { fieldSize: 10 * (1024 * 1024) } });
+export const upload_profile: any = multer({ storage: storageProfile,  fileFilter: fileFilter_profile, limits: { fieldSize: 10 * (1024 * 1024) } });
 
 
 

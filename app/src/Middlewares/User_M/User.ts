@@ -68,7 +68,6 @@ export const NorequireAuth = (req: Request, res: Response, next: NextFunction) =
 
     */
     let token = JSON.stringify(req.cookies.token)
-    console.log('midware: ', token)
 
     if (token == undefined) {
         return next(); // go other layer

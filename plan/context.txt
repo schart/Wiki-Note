@@ -1,0 +1,49 @@
+!: that get mean: this proccess completed in project
+Contains: 
+Login!, 
+Register!, 
+Upload Pdf!, 
+Yorum!, 
+Profile photo!,  
+Like!, 
+Follow!, 
+Unfollow!, 
+Notification, 
+Give Perrmission,   
+Read at late.
+
+
+User proccess:
+	Giriş yapmamış kullanıcılar noksandır: (Gönderi Beğenme/Paylaşma/Yorum yapma/silme).
+	Kullanıcı giriş yapabilmeli ve kayıt olabilmeli. -> -- success
+	Kullanıcı kendi profil fotosunu güncelleyebilir. -> -- success
+	Kullanıcı gönderiyi beğenebilir. -> -- success
+
+	Gönderi yükleyebilmek -> -- success
+	Gönderi beğenebilmek -> -- success 
+	Yorum yükleyebilmek ->  -- success
+
+Admin tarafı:
+	Yüklenen Gönderilar paylaşılmadan önce admin paneline düşer ve adminler tarafından incelenerek kabul edilir/edilmez.
+ 	Yüklenen Gönderileri ancak ve ancak admin silebilir ve yetkilendirme sistemine bağlı olarak Admin'in yetkilendirdiği moderatörler.
+
+	Yetkilendirme:
+		Admin(Kullanıcı sil, Moderator atama, Gönderi silebilir, yorum silebilir, banlayabilir), yönetici(Feridun, Heja)
+
+	Notification:
+		(notificatorid, message, status(was read/unread))
+
+
+ 
+Postlar Onaylanmış ve onaylanmamış olarak ikiye ayrılıyor. 
+
+	Onaylanmamış postlar -> yüklenmiş ama admin tarafından kabul görmemiş veya henüz onaylanmamış notlardır.
+	Onaylanmış postlar -> Yüklenmiş ve admin tarafından onaylanmış postlardır
+
+	Postlar onaylandıktan sonra eski haline yani onaylanmamış haline geri döndürülebilmelidir aksi takdirde hata meydana gelir
+
+	Postu doğrulama noktasına bir istek geldiğinde bunun postu doğrulamak için olduğunu biliriz ve öncelikle onaylanmamış ama yüklenmiş postlara bakarız.
+	Eğer orada gönderilen post mevcut ise doğrulanması için hak verilir lakin yok ise kullanıcıya "böyle bir post bulunamadı" hatası gösterilir.
+
+	Onaylanmamış bir post gelirse 
+	

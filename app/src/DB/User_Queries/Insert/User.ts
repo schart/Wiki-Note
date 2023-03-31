@@ -1,11 +1,8 @@
 import * as Models from '../../../model/Mongo_M/Mongo';
 import * as config_postgres from "../../configDB"
 
-
-
 export let SetPhoto: any =  async (id: string | null) => 
 {
-    
     return new Promise((resolve, reject) => 
     {
     

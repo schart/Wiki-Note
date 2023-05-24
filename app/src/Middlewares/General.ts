@@ -1,10 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
-
-
 // check format of email 
-export const is_valid_email = (req: Request, res: Response, next: NextFunction) => 
-{
+export const is_valid_email = (req: Request, res: Response, next: NextFunction) => {
     console.log("is_valid_email: ", req.body)
     
     let email: any = req.body.email

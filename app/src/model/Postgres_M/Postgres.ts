@@ -1,10 +1,7 @@
 import * as utils from '../../DB/configDB';
 
-export class DB 
-{
-
-    delete_all_table = () =>
-    {
+export class DB {
+    delete_all_table = () => {
         utils.posgres_client.query
         (`
             -- Recreate the schema
@@ -18,8 +15,7 @@ export class DB
     }
 
 
-    init_note = () => 
-    {
+    init_note = () => {
         // FileN -> File name     
 
         const Note_info: string = utils.posgres_client.query
@@ -99,8 +95,7 @@ export class DB
 
     }
 
-    init_follow =  () => 
-    {
+    init_follow =  () => {
     
         const Follow: string = utils.posgres_client.query
             (`
@@ -115,8 +110,7 @@ export class DB
             `)
     } 
 
-    init_notification =  () => 
-    {
+    init_notification =  () => {
         const Notification: string = utils.posgres_client.query
         (`
             CREATE TABLE IF NOT EXISTS U_notification
@@ -131,8 +125,7 @@ export class DB
 
     }
 
-    init_readAtLater = () => 
-    {
+    init_readAtLater = () => {
         const ReadAtLater: string = utils.posgres_client.query
         (`
         

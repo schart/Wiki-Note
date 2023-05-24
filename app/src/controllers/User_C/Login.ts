@@ -3,37 +3,28 @@ import * as types from '../../selftypes/types';
 import * as utils from "../../utils/utils"
 import jwt from 'jsonwebtoken'
 
-class Login_Proccess 
-{
-    
-    login = (req: Request, res: Response, next: NextFunction) => 
-    {
+class Login_Proccess {
+    login = (req: Request, res: Response, next: NextFunction) => {
         const login: types.Login = req.body;
-        const username: any = login.username;
-        const email: any = login.email;
+        const username: string = login.username;
+        const email: string = login.email;
         const Id: number = res.locals.id;
-        console.log("login: ", login)
         
-        let payload =
-        {
+        let payload = {
             Id,
             username,
             email,
             STRING_KEY: utils.generateString(20)
         }
 
-        let token: any = jwt.sign(payload, req.app.get('SECRET_KEY'));
+        let token: any;
+        token = jwt.sign(payload, req.app.get('SECRET_KEY'));
 
         res.cookie('token', token, { maxAge: 315000101, httpOnly: true, });
-        res.status(200).json({ ok: true, login, msg: "Login success" })
+        res.status(200).json({ ok: true, login, msg: "Login success" });
+    };
 
-    }
-
-
-
-
-    logout = (req: Request, res: Response, next: NextFunction) => 
-    {
+    logout = (req: Request, res: Response, next: NextFunction) => {
         let token: string = req.cookies.token;
         let decoded: any = jwt.decode(token);
     
@@ -68,8 +59,7 @@ class Login_Proccess
             })*/
         
         res.cookie('token', '', { maxAge: 0, httpOnly: true });
-        return res.status(200).json({ ok: true, msg: 'Logout success' })
-    }
-}
-
+        return res.status(200).json({ ok: true, msg: 'Logout success' });
+    };
+};
 export = new Login_Proccess();

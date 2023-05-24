@@ -42,7 +42,6 @@ export const getCurrentUser = (req: Request, res: Response, next: NextFunction) 
     /*
         Get current user in session 
     */
-
     let token = JSON.stringify(req.cookies.token)
 
     if (token != undefined) {
@@ -66,8 +65,8 @@ export const NorequireAuth = (req: Request, res: Response, next: NextFunction) =
     /**
      * @param This middleware for check status login for redirect login
     **/
-
-    let token = JSON.stringify(req.cookies.token)
+    let token;
+    token = JSON.stringify(req.cookies.token)
 
     if (token == undefined) {
         return next(); // go other layer
@@ -77,14 +76,14 @@ export const NorequireAuth = (req: Request, res: Response, next: NextFunction) =
 }
 
 
-export const isAdminTrue: any = async (req: Request, res: Response, next: NextFunction) => {
-    let token: any; token = JSON.parse(JSON.stringify(jwtDecode(req.cookies.token)));
-
+export const isAdminTrue = async (req: Request, res: Response, next: NextFunction) => {
+    let token: any; 
+    token = JSON.parse(JSON.stringify(jwtDecode(req.cookies.token)));
 
     await Models.Users.findOne({ _id: token.Id })
         .then((result: any) => {
             if (result._Admin == false) return res.status(401).json({ ok: false, msg: "You don't have permission" })
             else console.log(result), next()
         })
-        .catch((error: Error) => console.error("err: ", error))
+        .catch((error: Error) => console.error(error))
 }

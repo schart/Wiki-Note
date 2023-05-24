@@ -5,74 +5,71 @@ import jwtDecode from 'jwt-decode';
 import fs from "fs"
 import multer from 'multer';
 
-class User
-{
-    SetPhoto: any = async (req: Request, res: Response) => 
-    { 
+class User{
+    SetPhoto = async (req: Request, res: Response) => { 
         const uploads: any = utils.upload_profile.single('photo');
-        let token: any | undefined; let fileName: any | undefined; let mayFile: any | undefined; let extension: any | undefined | null; 
 
-        uploads(req, res, async (error: Error): Promise<any> => 
-        {
-            if (error instanceof multer.MulterError) return res.status(400).json({ ok: false, message: error.message });
-            
+        uploads(req, res, async (error: Error): Promise<any> => {
+            if (error instanceof multer.MulterError) return res.status(400).json({ ok: false, message: error.message });            
             else if (error instanceof Error) return res.status(400).json({ ok: false, message: error.message });
-            else 
-            {
+            else {
+                let token: any; 
+                let fileName: any | undefined; 
+                let extension: string | undefined; 
+
                 token = JSON.parse(JSON.stringify(jwtDecode(req.cookies.token)))
                 fileName = req.file?.filename
                 extension =  "."+fileName.split(".")[1]
-                console.log("file: ", fileName)
+
                 if ((fs.existsSync(req.app.get("UPLOADS_PROFILE") + token.Id +  extension)) == true) fs.rmSync(req.app.get("UPLOADS_PROFILE") + token.Id + extension)
-                //! maybe error of path
-            
+                //! maybe error of path            
                 
                 await User_Queries.SetPhoto(token.Id)
-                .then((result: any | undefined) => 
-                {
-                    if (result == true) {fs.renameSync(req.app.get("UPLOADS_PROFILE") + fileName,  req.app.get("UPLOADS_PROFILE") + token.Id + extension), res.status(200).json({ok: true, msg: "has been updated profile photo"})}
-                    else return res.status(400).json({ok: false, msg: "has got a error"}) 
-                
-                })
-                .catch((error: Error) => console.log(error))
-                
+                    .then((result: any | undefined) => {
+                        if (result == false) {
+                            return res.status(400).json({ok: false, msg: "has got a error"}) 
+                        }         
+
+                        fs.renameSync(req.app.get("UPLOADS_PROFILE") + fileName,  req.app.get("UPLOADS_PROFILE") + token.Id + extension) 
+                        return res.status(200).json({ok: true, msg: "has been successfuly"})
+
+                    }).catch((error: Error) => console.log(error));            
             }
         
         })
     }
 
 
-    Follow: any = async (req: Request, res: Response) => 
-    { 
+    Follow = async (req: Request, res: Response) => { 
         let token: any;
         token = JSON.parse(JSON.stringify(jwtDecode(req.cookies.token)))
 
         await User_Queries.Follow_user(token.Id, req.body.followedId)
-        .then((result: any) => 
-        {
-            if (result == true) res.status(200).json({ok: true, msg: "has been success"})
-            else return res.status(400).json({ok: false, msg: "has got a error"}) 
-        })
-        .catch((error: Error) => console.log(error))
+            .then((result: any) => {
+                if (result == false) {
+                    return res.status(400).json({ok: false, msg: "has been failed"}) 
+                }  
+                else {
+                    return res.status(200).json({ok: true, msg: "has been successfuly"}) 
+                }
+            })
+            .catch((error: Error) => console.log(error))
     }
 
-    AddNote_ToRAT: any = async (req:Request, res: Response) => 
-    {
-        let token: any;
-        let NoteId: any = req.params.noteId;
-        token = JSON.parse(JSON.stringify(jwtDecode(req.cookies.token)))
+    AddNote_ToRAT = async (req:Request, res: Response) => {
+        const NoteId = req.params.noteId;
+        const token = JSON.parse(JSON.stringify(jwtDecode(req.cookies.token)));
         
         await User_Queries.AddNote_ToRAT(token.Id, NoteId)
-        .then((result: any) => 
-        {
-            if (result == true)  res.status(200).json({ok: true, msg: "has been success"});
-            else return res.status(400).json({ok: false, msg: "has got a error"});
-        })
-        .catch((error: Error) => console.log(error))
-
-
-    }
-}
-
-
+            .then((result: any) => {
+                if (result == false) {
+                    return res.status(400).json({ok: false, msg: "has been failed"});
+                }
+                else {
+                    return res.status(200).json({ok: true, msg: "has been successfuly"});
+                }
+            })
+            .catch((error: Error) => console.log(error));
+    };
+};
 export = new User;

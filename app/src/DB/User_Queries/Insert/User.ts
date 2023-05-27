@@ -1,14 +1,12 @@
 import * as Models from '../../../model/Mongo_M/Mongo';
 import * as config_postgres from "../../configDB"
 
-export const SetPhoto: Function =  async (id: string | null) => 
-{
-    return new Promise((resolve, reject) => 
-    {
+export const SetPhoto: Function =  
+async (id: string | null) => {
+    return new Promise((resolve, reject) => {
     
         Models.Users.updateOne({"_id": id, "_PpName": id})
-            .then((result: any) => 
-            {
+            .then((result: any) => {
                 if (result["acknowledged"] == true) return resolve(true);
                 else return reject(false);
             }) 
@@ -18,13 +16,11 @@ export const SetPhoto: Function =  async (id: string | null) =>
 };
 
 
-export const Follow_user: Function = async (followerId: any, followedId: any) =>
-{
+export const Follow_user: Function = 
+async (followerId: any, followedId: any) =>{
 
-    return new Promise((resolve, reject) => 
-    {
-        config_postgres.posgres_client.query
-        ({
+    return new Promise((resolve, reject) => {
+        config_postgres.posgres_client.query({
             text: `
                     DO $$
 
@@ -57,12 +53,10 @@ export const Follow_user: Function = async (followerId: any, followedId: any) =>
 }
 
 
-export const AddNote_ToRAT: Function = (UserId: string, NoteId: number) => 
-{
-    return new Promise((resolve, reject) => 
-    {
-        config_postgres.posgres_client.query
-        ({
+export const AddNote_ToRAT: Function = 
+async (UserId: string, NoteId: number) => {
+    return new Promise((resolve, reject) => {
+        config_postgres.posgres_client.query({
             text: `
                 DO $$
 

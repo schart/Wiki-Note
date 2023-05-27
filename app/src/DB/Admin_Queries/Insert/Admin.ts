@@ -1,7 +1,8 @@
 import * as config_postgres from "../../configDB"
 import * as Models from '../../../model/Mongo_M/Mongo';
 
-export const sendNotification: Function =  async (notificatorId:string, forwhoseId:string, message:string) => {
+export const sendNotification: Function = 
+ async (notificatorId:string, forwhoseId:string, message:string) => {
     return new Promise((resolve, reject) => {
         config_postgres.posgres_client.query({
             text: `INSERT INTO u_notification(_notificatorid, _forwhoseid, _message) VALUES($1, $2, $3);`,
@@ -15,7 +16,8 @@ export const sendNotification: Function =  async (notificatorId:string, forwhose
     }
 )};
 
-export const reportNote: Function = async (reporterid: any, noteid: any) => {
+export const reportNote: Function = 
+async (reporterid: any, noteid: any) => {
     return new Promise((resolve, reject) => {
         config_postgres.posgres_client.query({
             text: `
@@ -46,7 +48,8 @@ export const reportNote: Function = async (reporterid: any, noteid: any) => {
 };
 
 
-export const givePermission: Function =  async (userId: any) => {
+export const givePermission: Function =  
+async (userId: any) => {
     return new Promise((resolve, reject) => {
         let status: Boolean;
 

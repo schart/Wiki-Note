@@ -6,7 +6,8 @@ import e, { Request, Response, NextFunction} from 'express';
 import * as query_functions from "../../DB/Note_Queries/Insert/Note";
 
 class Note {
-    note_upload = async (req: Request, res: Response, next: NextFunction) => {
+    note_upload = 
+    async (req: Request, res: Response, next: NextFunction) => {
         // For public
         const uploads: any = utils.upload_pdf.single('file');
 
@@ -46,7 +47,8 @@ class Note {
 
     };
 
-    note_accept = async (req: Request, res: Response, next: NextFunction) => {
+    note_accept = 
+    async (req: Request, res: Response, next: NextFunction) => {
         //! for admin
         let token: any; 
         token = JSON.parse(JSON.stringify(jwtDecode(req.cookies.token)));
@@ -61,7 +63,8 @@ class Note {
     };
 
 
-    note_delete = async (req: Request, res: Response, next: NextFunction) => {
+    note_delete = 
+    async (req: Request, res: Response, next: NextFunction) => {
         //! for admin
         let token: any; 
         token = JSON.parse(JSON.stringify(jwtDecode(req.cookies.token)));
@@ -76,7 +79,8 @@ class Note {
     };
 
 
-    note_comment = async (req: Request, res: Response, next: NextFunction) =>  {
+    note_comment = 
+    async (req: Request, res: Response, next: NextFunction) =>  {
         //! for public
         let token: any; 
         token = JSON.parse(JSON.stringify(jwtDecode(req.cookies.token)));
@@ -90,7 +94,8 @@ class Note {
             })
     };
 
-    note_like = async (req: Request, res: Response, next: NextFunction) => {
+    note_like = 
+    async (req: Request, res: Response, next: NextFunction) => {
         //! for public   
         let token: any; 
         token = JSON.parse(JSON.stringify(jwtDecode(req.cookies.token)));

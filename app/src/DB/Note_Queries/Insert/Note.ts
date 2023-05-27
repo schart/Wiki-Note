@@ -1,7 +1,8 @@
 import * as config_redis from "../../../Cache/configCache"
 import * as config_postgres from "../../configDB"
 
-export const Note_save: Function = async (userid: number, value: any): Promise<boolean> => {
+export const Note_save: Function = 
+async (userid: number, value: any): Promise<boolean> => {
     let lastInsertID: number = 0;
   
     try {

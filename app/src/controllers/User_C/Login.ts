@@ -1,10 +1,11 @@
-import express, { Request, Response, NextFunction, Application, Router } from 'express';
+import jwt from 'jsonwebtoken';
+import * as utils from "../../utils/utils";
 import * as types from '../../selftypes/types';
-import * as utils from "../../utils/utils"
-import jwt from 'jsonwebtoken'
+import { Request, Response, NextFunction } from 'express';
 
 class Login_Proccess {
-    login = (req: Request, res: Response, next: NextFunction) => {
+    login = 
+    async (req: Request, res: Response, next: NextFunction) => {
         const login: types.Login = req.body;
         const username: string = login.username;
         const email: string = login.email;
@@ -24,10 +25,14 @@ class Login_Proccess {
         res.status(200).json({ ok: true, login, msg: "Login success" });
     };
 
-    logout = (req: Request, res: Response, next: NextFunction) => {
+    logout = 
+    async (req: Request, res: Response, next: NextFunction) => {
         let token: string = req.cookies.token;
         let decoded: any = jwt.decode(token);
-    
+
+        res.cookie('token', '', { maxAge: 0, httpOnly: true });
+        return res.status(200).json({ ok: true, msg: 'Logout success' });
+
         // We using for loop to get index num. of the list element 
         /*utils.redis_client.lRange("usernames", -1, -1).then((result_username: any) => 
             {
@@ -57,9 +62,6 @@ class Login_Proccess {
                 }
             
             })*/
-        
-        res.cookie('token', '', { maxAge: 0, httpOnly: true });
-        return res.status(200).json({ ok: true, msg: 'Logout success' });
     };
 };
 export = new Login_Proccess();

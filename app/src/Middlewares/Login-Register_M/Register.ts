@@ -2,7 +2,8 @@ import express, { Request, Response, NextFunction, Application, Router } from 'e
 import * as  Cache from '../../Cache/Login-Register_Queries/Login-Register';
 
 // precheck presence for register
-export const presence_user_InRedis_register = async (req: Request, res: Response, next: NextFunction) => {
+export const presence_user_InRedis_register = 
+async (req: Request, res: Response, next: NextFunction) => {
     const username: any = req.body.username; const email: any = req.body.email;
 
     await Cache.precenceRegister(username, email)

@@ -1,12 +1,13 @@
-import * as User_Queries from "../../DB/User_Queries/Insert/User"
+import fs from "fs";
+import multer from 'multer';
+import jwtDecode from 'jwt-decode';
 import { Request, Response} from 'express';
 import * as utils from '../../utils/utils';
-import jwtDecode from 'jwt-decode';
-import fs from "fs"
-import multer from 'multer';
+import * as User_Queries from "../../DB/User_Queries/Insert/User";
 
 class User{
-    SetPhoto = async (req: Request, res: Response) => { 
+    SetPhoto = 
+    async (req: Request, res: Response) => { 
         const uploads: any = utils.upload_profile.single('photo');
 
         uploads(req, res, async (error: Error): Promise<any> => {
@@ -40,7 +41,8 @@ class User{
     }
 
 
-    Follow = async (req: Request, res: Response) => { 
+    Follow = 
+    async (req: Request, res: Response) => { 
         let token: any;
         token = JSON.parse(JSON.stringify(jwtDecode(req.cookies.token)))
 
@@ -56,7 +58,8 @@ class User{
             .catch((error: Error) => console.log(error))
     }
 
-    AddNote_ToRAT = async (req:Request, res: Response) => {
+    AddNote_ToRAT = 
+    async (req:Request, res: Response) => {
         const NoteId = req.params.noteId;
         const token = JSON.parse(JSON.stringify(jwtDecode(req.cookies.token)));
         

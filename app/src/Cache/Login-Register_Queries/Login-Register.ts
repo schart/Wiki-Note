@@ -15,9 +15,9 @@ export const precenceLogin: Function = (username: any, email: any) => {
                             else return resolve(false);
                         }
                     })
-                    .catch((error_email: any) => reject("email-error"))  
+                    .catch((_: null) => reject("email-error"))  
                 })
-                .catch((error_username: any) => reject("username-error"))  
+                .catch((_: null) => reject("username-error"))  
             }
 )
 }
@@ -40,8 +40,8 @@ export const precenceRegister: Function = (username: any, email: any) => {
                             else resolve(true)  
                         }
                 })
-                .catch((error_email: any) => reject("email-error")) //return res.status(400).json({ ok: false, error_email })  
+                .catch((_: null) => reject("email-error")) //return res.status(400).json({ ok: false, error_email })  
         })
-        .catch((error_username: any) =>  reject("username-error")) //return res.status(400).json({ ok: false, error_username })  
+        .catch((_: null) =>  reject("username-error")) //return res.status(400).json({ ok: false, error_username })  
     });
 };

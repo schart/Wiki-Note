@@ -1,9 +1,10 @@
-import * as admin_query from '../../DB/Admin_Queries/Insert/Admin';
-import { Request, Response, NextFunction } from 'express';
 import jwtDecode from 'jwt-decode';
+import { Request, Response, NextFunction } from 'express';
+import * as admin_query from '../../DB/Admin_Queries/Insert/Admin';
 
 class Admin { 
-    Notification = async (req: Request, res: Response, next: NextFunction) => {
+    Notification = 
+    async (req: Request, res: Response, next: NextFunction) => {
         //! Only admins can share notification or system of web server
         let token: any; token = JSON.parse(JSON.stringify(jwtDecode(req.cookies.token)));
 
@@ -12,7 +13,8 @@ class Admin {
             .catch((error: Error) => { return res.status(400).json({ ok: false, error, msg: "there are problems please try again at later" }) })
     };
 
-    ReportPost = async (req: Request, res: Response, next: NextFunction) => {
+    ReportPost = 
+    async (req: Request, res: Response, next: NextFunction) => {
         let token: any; token = JSON.parse(JSON.stringify(jwtDecode(req.cookies.token)));
         
         await admin_query.reportNote(token.Id, req.body.noteId)
@@ -20,7 +22,8 @@ class Admin {
             .catch((error: Error) => { return res.status(400).json({ ok: false, error, msg: "there are problems please try again at later" }) })
     };
 
-    GivePermission = async (req: Request, res: Response, next: NextFunction) => {
+    GivePermission = 
+    async (req: Request, res: Response, next: NextFunction) => {
         let token: any; token = JSON.parse(JSON.stringify(jwtDecode(req.cookies.token)));
         
         admin_query.givePermission(req.params.userId)

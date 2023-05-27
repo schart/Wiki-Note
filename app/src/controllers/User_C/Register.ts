@@ -7,7 +7,8 @@ import * as config_redis from '../../Cache/configCache';
 import { Request, Response, NextFunction } from 'express';
 
 class Register_Proccess {
-    register = async (req: Request, res: Response, next: NextFunction) => {
+    register = 
+    async (req: Request, res: Response, next: NextFunction) => {
         const register: types.Register = req.body;
 
         const save_user: any = new Models.Users({

@@ -1,7 +1,0 @@
-Proccess:
-	Login&register,  pdf 
-
-	
-
-Steps:
-	DB Proccess, Main Proccess, Security

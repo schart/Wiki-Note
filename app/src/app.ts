@@ -1,32 +1,34 @@
-import * as mongoModels from "./model/Mongo_M/Mongo";
-import express, { Request, Response } from 'express';
-import * as config_redis from './Cache/configCache';
-import * as routers from './routers/AllRouters';
-import cookieParser from 'cookie-parser';
-import bodyParser from 'body-parser';
 import { Server } from 'http';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import * as user_route from './routers/route.user';
+import * as note_route from './routers/route.note';
+import * as admin_route from './routers/route.admin';
+import express, { Request, Response } from 'express';
+import * as comment_route from './routers/route.comment';
+import * as mongoModels from "./model/model.mongo/models";
+import * as config_redis from './utils/util.cache.config';
 
 
 // Start db tools like cursor for access
-
-
     //? Import Configs
-    import * as utils from "./utils/utils";
+    import * as utils from "./utils/util.generate.string";
     utils
 
     //? Redis 
-    import * as redis from './Cache/configCache';
+    import * as redis from './utils/util.cache.config';
     redis
 
     //? Mongo 
-    import * as mongo from './model/Mongo_M/configMongo';
+    import * as mongo from './utils/util.mongo.config';
     mongo
-    //! Create Mongo Schema
+
+    //! Create Mongo Schema/Models
     mongoModels.Users
 
     //? Postgres
-    import * as postgres from './model/Postgres_M/Postgres';
-    import * as noteModels from "./model/Postgres_M/Postgres";
+    import * as postgres from './model/model.postgre/Postgres';
+    import * as noteModels from "./model/model.postgre/Postgres";
     postgres
 
     //! Create Postgres Schema
@@ -60,10 +62,10 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.use('/note', routers.NoteRoute);
-app.use('/user', routers.UserRoute);
-app.use('/admin', routers.AdminRoute);
-app.use('/comment', routers.CommentRoute);
+app.use('/note', note_route.NoteRoute);
+app.use('/user', user_route.UserRoute);
+app.use('/admin', admin_route.AdminRoute);
+app.use('/comment', comment_route.CommentRoute);
 
 //! Run as firstly '/'
 app.get('/', (req: Request, res: Response) => res.json(200).json({ok: true, msg: "Welcome my API to social media platform "})) 

@@ -11,7 +11,7 @@
         "port": 5432,
         "user": "postgres",
         "database": "Wiki_Note",
-        "password": "heja2121"
+        "password": "**"
     },
     "Redis": {
         "port": 6379
